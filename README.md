@@ -1,4 +1,4 @@
-# Hot Dashboard
+# WFP Proof of work
 
 This project was generated with [Create React App](https://github.com/facebook/react/) version 16.4.2.
 
