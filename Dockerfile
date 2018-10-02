@@ -1,7 +1,7 @@
 FROM node:latest
 
 # ARGS
-ARG PROJECT_NAME=hot-dashboard
+ARG PROJECT_NAME=wfp-proofofwork
 # get default node user : 'node'
 ARG USER=node
 ARG WORKSPACE=/usr/dockers/devapp
@@ -16,14 +16,12 @@ RUN npm -g config set user root
 
 #install project dependencies
 RUN npm install --silent
-RUN npm install -g @angular/cli@latest
 RUN npm install @material-ui/core --save
 RUN npm install @material-ui/icons --save
 RUN npm install papaparse --save
 RUN npm install victory --save
 RUN apt-get install git
 RUN npm -v
-RUN ng -v
 
 WORKDIR $WORKSPACE
 
@@ -56,6 +54,3 @@ RUN npm -g config set user $USER
 RUN ls -la
 COPY ./package*.json ./
 RUN bash Docker/check-project.sh $PROJECT_NAME
-
-
-# EXPOSE 3630

@@ -2,7 +2,7 @@ version: '2'
 services:
 
     devapp:
-        image: hot/dashboard
+        image: wfp/proofofwork
         build: .
         ports:
 #   the local port:the port of the running app on docker side

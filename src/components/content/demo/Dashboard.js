@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 
 /** CSS **/
-import './CapacityBuildingContent.css';
+import './Dashboard.css';
 
 /** Logos **/
 import mapIMG        from '../../../assets/images/logos/map.png';
@@ -32,22 +32,29 @@ import { VictoryGroup   }  from 'victory';
 import { VictoryScatter   }  from 'victory';
 import CardHeader from "@material-ui/core/CardHeader/CardHeader";
 
-class CapacityBuildingContent extends Component {
+class Dashboard extends Component {
   //------------------------------------------------------------------------//
   //-------------------------------- Render --------------------------------//
   //------------------------------------------------------------------------//
   render() {
     return (
+      // The padding prevent the page to be too wide because of the option spacing
       <div style={{ padding: 12 }}>
-        {this.props.importedData.global &&
+        {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
+        {this.props.importedData &&
         (
           <div>
             {/* First row */}
-            <Grid container spacing={24} className="content-row">
-              <Grid item xs={12} sm={6} md={3}>
-                {this.props.importedData && (<WidgetIndicator title="This is a 'WidgetIndicator'"
-                                                              img={mapIMG}
-                                                              data={200}/>)}
+            <Grid container spacing={24} className="content-row">  {/* Spacing = space between cards */}
+              {/* A widdgetIndicator can be used to show an image and a value */}
+              <Grid item xs={12} sm={6} md={3}> {/* item of the container that uses bootstrap breakpoints */}
+                {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
+                {this.props.importedData && (<WidgetIndicator title="This is a 'WidgetIndicator'" //The title is the text displayed above the data
+                                                              img={mapIMG} //The image displayed on the left of the widget
+                                                              data={200}/>)} {/* The data is the value */}
+                {/* {this.props.importedData.global.main.totalProjects && (<WidgetIndicator title={this.props.importedData.global.main.totalProjects.title}*/}
+                {/*img={projectsIMG}*/}
+                {/*data={this.props.importedData.global.main.totalProjects.data}/>)}*/}
               </Grid>
               <Grid item xs={12} sm={6} md={3}>
                 {this.props.importedData && (<WidgetIndicator title="Indicator example 2"
@@ -68,10 +75,10 @@ class CapacityBuildingContent extends Component {
             {/* En of the first row */}
 
             {/* Second row */}
-            <Grid container spacing={24} className="content-row">
+            <Grid container spacing={24} className="content-row">  {/* Spacing = space between cards */}
               {/* Bar diagram example */}
               <Grid item xs={12} sm={6} md={4}>
-                {this.props.importedData.global.capacitybuilding.attendeesAndInstitutions &&
+                {this.props.importedData &&
                 (<WidgetGraph title = "Bar diagram example"
                               graph = {<VictoryChart domainPadding={15}>
                                 <VictoryAxis
@@ -83,6 +90,9 @@ class CapacityBuildingContent extends Component {
                                 {<VictoryBar
                                   labelComponent={<VictoryTooltip/>}
                                   style  = {{ data: { fill: "#D73F3F" } }}
+                                  // The data should be an array and each diagram differs in the attributes
+                                  // You can use the function "tableToData" in the MappingContent file from global
+                                  // https://formidable.com/open-source/victory/docs/
                                   data   = {[
                                     { x: "Jan 2015",
                                       y: 12,
@@ -195,16 +205,16 @@ class CapacityBuildingContent extends Component {
               <Grid item xs={12} sm={6} md={4}>
                 {this.props.importedData.global && (
                   <WidgetGraph title = "Pie chart example"
-                               graph = {<VictoryPie
-                                 padAngle    = {2}
-                                 innerRadius = {100}
-                                 width       = {475}
-                                 colorScale  = {[ "#FAA71E", "#D73F3F"]}
-                                 style={{ labels: {fontSize: 18} }}
-                                 data = {[
-                                   { x: "Women", y: 51 },
-                                   { x: "Men",   y: 49 },
-                                 ]}
+                               graph = {<VictoryPie domainPadding={15}
+                                                    padAngle    = {2}
+                                                    innerRadius = {100}
+                                                    width       = {475}
+                                                    colorScale  = {[ "#FAA71E", "#D73F3F"]}
+                                                    style={{ labels: {fontSize: 18} }}
+                                                    data = {[
+                                                      { x: "Women", y: 51 },
+                                                      { x: "Men",   y: 49 },
+                                                    ]}
                                />}/>)}
               </Grid>
 
@@ -234,4 +244,4 @@ class CapacityBuildingContent extends Component {
   }
 }
 
-export default CapacityBuildingContent;
+export default Dashboard;
