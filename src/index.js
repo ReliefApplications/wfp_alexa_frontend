@@ -40,8 +40,8 @@ const GlobalTheme = createMuiTheme({
     },
     MuiButton: {
       raised: {
-        background : 'white',
-        color      : '#D73F3F',
+        background : '#0A6EB4',
+        color      : 'white',
         margin     : '0 0 0 10px',
         fontFamily : '"Barlow Condensed", sans-serif',
         fontSize   : 18,
@@ -60,8 +60,8 @@ const GlobalTheme = createMuiTheme({
       root: {
         fontFamily : '"Barlow Condensed", sans-serif',
         fontWeight : 400,
-        background : 'white',
-        color      : '#D73F3F',
+        background : '#0A6EB4',
+        color      : 'white',
       }
     }
   },

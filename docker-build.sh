@@ -7,6 +7,6 @@ TARGET=$1 # ex: project/subproject
 # echo "Delete images"
 # sudo docker rmi $(sudo docker images -a -q) --force
 
-sudo docker build -t $TARGET -f ./Dockerfile . # --build-arg USER=$2
+sudo docker build -t $TARGET -f ./Dockerfile # --build-arg http_proxy=http://localhost:8900 --build-arg https_proxy=http://localhost:8900 . # --build-arg USER=$2
 sudo docker images | grep $TARGET
 sudo docker-compose up devapp

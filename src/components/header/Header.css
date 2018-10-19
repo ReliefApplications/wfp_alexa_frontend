@@ -8,8 +8,8 @@
   flex-direction : column;
   align-items: center;
   padding          : 0 0 10px 0;
-  color : #D73F3F;
-  background-color            : white;
+  color : white;
+  background-color            : #0A6EB4;
   font-family: 'Barlow Condensed', sans-serif;
   box-shadow: 0 5px 50px 0 #929DB3;
 }
@@ -31,7 +31,7 @@
 }
 
 #MiniMenuGlobal {
-  color : #D73F3F;
+  color : #0A6EB4;
   font-family: 'Barlow Condensed', sans-serif;
   font-weight: 400;
 }
@@ -96,12 +96,12 @@
 
 .nav-secondary .tagline {
   font-size: .75rem;
-  color: #D73F3F;
+  color: #0A6EB4;
   opacity: .85;
 }
 
 .nav-secondary .nav-item-donate {
-  background-color: #D73F3F;
+  background-color: #0A6EB4;
   color: #FFFFFF;
   font-family: "Barlow Condensed", sans-serif;
   letter-spacing: .035em;
