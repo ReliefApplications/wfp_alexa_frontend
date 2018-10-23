@@ -17,9 +17,87 @@ const isLocalhost = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
+const applicationServerPublicKey = 'BOL8IYloeqGqi1QYNJKksObjS0rQ5ZbXb4Q2OQG3naSLfKl5q1eQsSpFHhkSnXb7jVsSWmYlAVMivH0YXFUvzyc';
+let isSubscribed = false;
+let swRegistration = null;
+
+const urlB64ToUint8Array = function(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+};
+
+let subscribeUser = function() {
+  const applicationServerKey = urlB64ToUint8Array(applicationServerPublicKey);
+  swRegistration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: applicationServerKey
+  })
+    .then(function(subscription) {
+      console.log('User is subscribed.');
+
+      updateSubscriptionOnServer(subscription);
+
+      isSubscribed = true;
+      updateBtn();
+    })
+    .catch(function(err) {
+      console.log('Failed to subscribe the user: ', err);
+      updateBtn();
+    });
+};
+
+let updateBtn = function() {
+  if (Notification.permission === 'denied') {
+    console.error("denied");
+  }
+}
+
+let unsubscribeUser = function() {
+  swRegistration.pushManager.getSubscription()
+    .then(function(subscription) {
+      if (subscription) {
+        return subscription.unsubscribe();
+      }
+    })
+    .catch(function(error) {
+      console.log('Error unsubscribing', error);
+    })
+    .then(function() {
+      updateSubscriptionOnServer(null);
+
+      console.log('User is unsubscribed.');
+      isSubscribed = false;
+    });
+};
+
+const updateSubscriptionOnServer = function(subscription) {
+  console.log(JSON.stringify(subscription));
+  // TODO: Send subscription to application server
+
+  // const subscriptionJson = document.querySelector('.js-subscription-json');
+  // const subscriptionDetails =
+    // document.querySelector('.js-subscription-details');
+
+  if (subscription) {
+    // subscriptionDetails.classList.remove('is-invisible');
+  } else {
+    // subscriptionDetails.classList.add('is-invisible');
+  }
+};
 
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  // if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -30,7 +108,7 @@ export default function register() {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = `${process.env.PUBLIC_URL}/service-worker-custom.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
@@ -38,11 +116,12 @@ export default function register() {
 
         // Add some additional logging to localhost, pointing developers to the
         // service worker/PWA documentation.
-        navigator.serviceWorker.ready.then(() => {
+        navigator.serviceWorker.ready.then((registration) => {
           console.log(
             'This web Home is being served cache-first by a service ' +
               'worker. To learn more, visit https://goo.gl/SC7cgQ'
-          );
+          , isSubscribed);
+          swRegistration = registration;
         });
       } else {
         // Is not local host. Just register service worker
@@ -56,6 +135,7 @@ function registerValidSW(swUrl) {
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
+      swRegistration = registration;
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
         installingWorker.onstatechange = () => {
@@ -75,6 +155,11 @@ function registerValidSW(swUrl) {
           }
         };
       };
+      if (isSubscribed) {
+        unsubscribeUser();
+      } else {
+        subscribeUser();
+      }
     })
     .catch(error => {
       console.error('Error during service worker registration:', error);
