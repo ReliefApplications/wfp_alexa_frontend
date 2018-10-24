@@ -5,10 +5,9 @@ import React, { Component } from 'react';
 import './Dashboard.css';
 
 /** Logos **/
-import mapIMG        from '../../../assets/images/logos/map.png';
-import mapathonsIMG  from '../../../assets/images/logos/mapathons.png';
-import projectsIMG   from '../../../assets/images/logos/projects.png';
-import trainingIMG   from '../../../assets/images/logos/training.png';
+import foodIMG     from '../../../assets/images/logos/food.png';
+import moneyIMG    from '../../../assets/images/logos/money.png';
+import capacityIMG from '../../../assets/images/logos/capacity_strengthening.png';
 
 /** Material UI **/
 // import Typography       from '@material-ui/core/Typography';
@@ -19,6 +18,7 @@ import Grid             from '@material-ui/core/Grid';
 /** Components **/
 import WidgetIndicator from '../../widget/Indicator';
 import WidgetGraph     from '../../widget/Graph';
+import CustomLabel     from '../../widget/CustomLabel';
 
 /** Plugins **/
 import { VictoryPie   }  from 'victory';
@@ -37,111 +37,180 @@ class Dashboard extends Component {
   //-------------------------------- Render --------------------------------//
   //------------------------------------------------------------------------//
   render() {
-    console.log(this.props.importedData);
+    /**
+     * This function is used to create the data for the graphs
+     */
+    const tableToData = function (data, customLabel, dataToShow, valueToShow, dataDisplayed, dissagregationLabel, dissagregationValue, sortingChoice) {
+      let dataSort = function (a, b) {
+        if (a.y < b.y) {
+          return -1;
+        } else if (a.y > b.y) {
+          return 1;
+        } else {
+          return 0;
+        }
+      };
+      let res = [];
+      for (let i=data.length-1; i>=0; i--)
+      {
+        if (data[i][dataToShow] === valueToShow) {
+          // if (data[i][dissagregationLabel] === dissagregationValue) {
+            res.push({
+              x: data[i][dissagregationLabel],
+              y: data[i][dataDisplayed],
+              label: data[i][dataDisplayed] + " " + data[i][dissagregationLabel] + " " + valueToShow + " " + customLabel
+            });
+          // }
+        }
+      }
+      switch (sortingChoice) {
+        case "data":
+          res.sort(dataSort);
+          break;
+        default:
+      }
+      return res;
+    };
     return (
       // The padding prevent the page to be too wide because of the option spacing
       <div style={{ padding: 12 }}>
         {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
         {this.props.importedData &&
         (
-          <div>
-            {/* First row */}
-            <Grid container spacing={24} className="content-row">  {/* Spacing = space between cards */}
+          <div className="content-row">
+            {/* First column */}
+            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
               {/* A widdgetIndicator can be used to show an image and a value */}
-              <Grid item xs={12} sm={6} md={3}> {/* item of the container that uses bootstrap breakpoints */}
+              <Grid item> {/* item of the container that uses bootstrap breakpoints */}
                 {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
-                {this.props.importedData[0] && this.props.importedData[0][0] && this.props.importedData[0][0]['Planned food']
-                && (<WidgetIndicator title="Planned food" //The title is the text displayed above the data
-                                                              img={mapIMG} //The image displayed on the left of the widget
-                                                              data={parseInt(this.props.importedData[0][0]['Planned food'].replace(/\s/g, ''), 10)}/>)} {/* The data is the value */}
-                {/* {this.props.importedData.global.main.totalProjects && (<WidgetIndicator title={this.props.importedData.global.main.totalProjects.title}*/}
-                {/*img={projectsIMG}*/}
-                {/*data={this.props.importedData.global.main.totalProjects.data}/>)}*/}
+                {this.props.importedData[0] && this.props.importedData[0].food
+                && (<WidgetIndicator title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
+                                                              img={foodIMG} //The image displayed on the left of the widget
+                                                              data={this.props.importedData[0].food}/>)} {/* The data is the value */}
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {this.props.importedData[0] && this.props.importedData[0][0] && this.props.importedData[0][0]['Actual food']
-                && (<WidgetIndicator title="Actual food"
-                                                              img={trainingIMG}
-                                                              data={parseInt(this.props.importedData[0][0]['Actual food'].replace(/\s/g, ''), 10)}/>)}
+              <Grid item>
+                {this.props.importedData[0] && this.props.importedData[0].cbt
+                && (<WidgetIndicator title="Amount of cash based transfers to beneficiaries"
+                                                              img={moneyIMG}
+                                                              data={this.props.importedData[0].cbt}/>
+                )}
               </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {this.props.importedData[0] && this.props.importedData[0][0] && this.props.importedData[0][0]['Planned CBT']
-                && (<WidgetIndicator title="Planned CBT"
-                                                              img={projectsIMG}
-                                                              data={parseInt(this.props.importedData[0][0]['Planned CBT'].replace(/\s/g, ''), 10)}/>)}
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                {this.props.importedData[0] && this.props.importedData[0][0] && this.props.importedData[0][0]['Actual CBT']
-                && (<WidgetIndicator title="Actual CBT"
-                                                              img={mapathonsIMG}
-                                                              data={parseInt(this.props.importedData[0][0]['Actual CBT'].replace(/\s/g, ''), 10)}/>)}
+              <Grid item>
+                {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
+                && (<WidgetIndicator title="Amount invested in strengthening capacities of national actors and supporting partners"
+                                                              img={capacityIMG}
+                                                              data={this.props.importedData[1].capacity_strengthening}/>)}
               </Grid>
             </Grid>
-            {/* En of the first row */}
+            {/* En of the first column */}
 
-            <Grid container spacing={24} className="content-row">  {/* Spacing = space between cards */}
-              <Grid item xs={12} sm={6} md={3}> {/* item of the container that uses bootstrap breakpoints */}
-                {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
-                {this.props.importedData[1] && this.props.importedData[1][0] && this.props.importedData[1][0]['Total Capacity Strengthening (USD)']
-                && (<WidgetIndicator title="Total Capacity Strengthening (USD)" //The title is the text displayed above the data
-                                     img={mapIMG} //The image displayed on the left of the widget
-                                     data={parseInt(this.props.importedData[1][0]['Total Capacity Strengthening (USD)'].replace(/\s/g, ''), 10)}/>)} {/* The data is the value */}
+            {/* Second column */}
+            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
+              {/* Double bar chart example */}
+              <Grid item>
+                {
+                  (
+                    <WidgetGraph  title = "Double bar chart example"
+                                  graph = {
+                                    <div>
+                                      <VictoryGroup horizontal
+                                                    domainPadding={50}
+                                                    height={170}
+                                                    domain={{ x: [0, 700000] }}
+                                                    padding={{ top: 0, bottom: 0, left: 40, right: 0 }}
+                                      >
+                                        <VictoryBar labels={(d) => d.y}
+                                                    labelComponent={<CustomLabel/>}
+                                                    style  = {{
+                                                      data:
+                                                        { fill: (data) => {
+                                                          if (data.x === "Male") {
+                                                            return "#19486a";
+                                                          }
+                                                          else if (data.x === "Female") {
+                                                            return "#26bde2";
+                                                          }
+                                                          },
+                                                          width: 70
+                                                        }
+                                                    }}
+                                                    data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (< 5)", "Number of beneficiaries", "Sex")}
+                                        />
+                                        <VictoryLine style={{ data: { strokeWidth: 3, strokeDasharray: "5, 5" } }}
+                                                     data={[
+                                                       { x: 0, y: "Male" },
+                                                       { x: 700000, y: "Male" }
+                                                     ]}
+                                        />
+                                        <VictoryAxis style={{ tickLabels: { "padding": 10, "fill": "black", "stroke": "transparent" } }} dependentAxis
+                                                     height={170}
+                                        />
+                                      </VictoryGroup>
+                                      {/*<VictoryChart domainPadding={50}*/}
+                                                    {/*height={170}*/}
+                                                    {/*domain={{ x: [0, 700000] }}*/}
+                                                    {/*padding={{ top: 0, bottom: 0, left: 40, right: 0 }}*/}
+                                      {/*>*/}
+                                        {/*<VictoryBar*/}
+                                          {/*horizontal*/}
+                                          {/*labels={(d) => d.y}*/}
+                                          {/*labelComponent={<CustomLabel/>}*/}
+                                          {/*style  = {{*/}
+                                            {/*data:*/}
+                                              {/*{ fill: (data) => {*/}
+                                                {/*if (data.x === "Male") {*/}
+                                                  {/*return "#19486a";*/}
+                                                {/*}*/}
+                                                {/*else if (data.x === "Female") {*/}
+                                                  {/*return "#26bde2";*/}
+                                                {/*}*/}
+                                                {/*},*/}
+                                                {/*width: 70,*/}
+                                                {/*tickLabels: null*/}
+                                              {/*}*/}
+                                          {/*}}*/}
+                                          {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}*/}
+                                        {/*/>*/}
+                                      {/*</VictoryChart>*/}
+                                      {/*<VictoryChart domainPadding={50}*/}
+                                                    {/*height={170}*/}
+                                                    {/*domain={{ x: [0, 700000] }}*/}
+                                                    {/*padding={{ top: 0, bottom: 0, left: 40, right: 0 }}*/}
+                                      {/*>*/}
+                                        {/*<VictoryBar*/}
+                                          {/*horizontal*/}
+                                          {/*labels={(d) => d.y}*/}
+                                          {/*labelComponent={<CustomLabel/>}*/}
+                                          {/*style  = {{*/}
+                                            {/*data:*/}
+                                              {/*{ fill: (data) => {*/}
+                                                {/*if (data.x === "Male") {*/}
+                                                  {/*return "#19486a";*/}
+                                                {/*}*/}
+                                                {/*else if (data.x === "Female") {*/}
+                                                  {/*return "#26bde2";*/}
+                                                {/*}*/}
+                                                {/*},*/}
+                                                {/*width: 70,*/}
+                                                {/*tickLabels: null*/}
+                                              {/*}*/}
+                                          {/*}}*/}
+                                          {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}*/}
+                                        {/*/>*/}
+                                      {/*</VictoryChart>*/}
+                                      {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}*/}
+                                      {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}*/}
+                                    </div>
+                                  }
+                    />
+
+                )}
               </Grid>
-          </Grid>
+            </Grid>
 
-            {/* Second row */}
-            <Grid container spacing={24} className="content-row">  {/* Spacing = space between cards */}
-              {/*/!* Double bar chart example *!/*/}
-              {/*<Grid item xs={12} sm={6} md={4}>*/}
-                {/*{this.props.importedData[2] && this.props.importedData[2][0] && this.props.importedData[2][0]['Planned food']*/}
-                {/*(<WidgetGraph title = "Double bar chart example"*/}
-                              {/*graph = {<VictoryChart domainPadding={15}>*/}
-                                {/*<VictoryGroup offset={20} style={{ data: { width: 15 } }}>*/}
-                                  {/*<VictoryStack>*/}
-                                    {/*{<VictoryBar*/}
-                                      {/*labelComponent={<VictoryTooltip/>}*/}
-                                      {/*style  = {{ data: { fill: "#D73F3F" } }}*/}
-                                      {/*data   = {[*/}
-                                        {/*{ x: "Women",*/}
-                                          {/*y: 15*/}
-                                        {/*},*/}
-                                      {/*]}*/}
-                                    {/*/>}*/}
-                                  {/*</VictoryStack>*/}
-                                  {/*<VictoryStack>*/}
-                                    {/*{<VictoryBar*/}
-                                      {/*labelComponent={<VictoryTooltip/>}*/}
-                                      {/*style  = {{ data: { fill: "#FAA71E" } }}*/}
-                                      {/*data   = {[*/}
-                                        {/*{ x: "Men",*/}
-                                          {/*y: 7*/}
-                                        {/*},*/}
-                                      {/*]}*/}
-                                    {/*/>}*/}
-                                  {/*</VictoryStack>*/}
-                                {/*</VictoryGroup>*/}
-                              {/*</VictoryChart>*/}
-                              {/*}/>*/}
+            {/* Third column */}
+            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
 
-                {/*)}*/}
-              {/*</Grid>*/}
-
-              {/*/!* Pie chart example *!/*/}
-              {/*<Grid item xs={12} sm={6} md={4}>*/}
-                {/*{this.props.importedData.global && (*/}
-                  {/*<WidgetGraph title = "Pie chart example"*/}
-                               {/*graph = {<VictoryPie domainPadding={15}*/}
-                                                    {/*padAngle    = {2}*/}
-                                                    {/*innerRadius = {100}*/}
-                                                    {/*width       = {475}*/}
-                                                    {/*colorScale  = {[ "#FAA71E", "#D73F3F"]}*/}
-                                                    {/*style={{ labels: {fontSize: 18} }}*/}
-                                                    {/*data = {[*/}
-                                                      {/*{ x: "Women", y: 51 },*/}
-                                                      {/*{ x: "Men",   y: 49 },*/}
-                                                    {/*]}*/}
-                               {/*/>}/>)}*/}
-              {/*</Grid>*/}
             </Grid>
           </div>
         )}

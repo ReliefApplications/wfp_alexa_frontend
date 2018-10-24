@@ -10,16 +10,6 @@
 }
 
 /*------------------------------------------------------------------------//
-//------------------------------- Content --------------------------------//
-//------------------------------------------------------------------------*/
-/** General contents div **/
-.content-row {
-  display      : flex;
-  text-align   : center;
-  padding      : 0 !important;
-}
-
-/*------------------------------------------------------------------------//
 //------------------------------- Loader ---------------------------------//
 //------------------------------------------------------------------------*/
 .loader {
@@ -32,22 +22,8 @@
   animation: spin 2s linear infinite;
 }
 
-.indicator-container {
-  /*display       : flex;*/
-  /*height: auto !important;*/
-  /*margin: 40px 20px 0px;*/
-  /*max-width: 345px;*/
-}
-.widget-image{
+.widget-home-image{
   background-color : #0A6EB4;
   width            : 250px;
   height: 102px;
-}
-.widget-text{
-  /*display         : flex;*/
-  /*flex-direction  : column;*/
-  /*justify-content : center;*/
-  /*text-align      : center;*/
-  /*margin          : 0 auto;*/
-  /*padding         : 10px;*/
 }

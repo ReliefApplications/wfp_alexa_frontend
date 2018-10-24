@@ -36,7 +36,7 @@ class Home extends React.Component {
       importedData: {}
     };
     subscribeToDashboardChanges((userId, country, data) => {
-      console.log(data);
+      // console.log(data);
       if (data !== {}) {
         this.setState({
           country: country,
@@ -76,7 +76,7 @@ class Home extends React.Component {
           <div>
             <Card className="indicator-container">
               <CardContent className="widget-text">
-                <CardMedia className={"widget-image"}
+                <CardMedia className={"widget-home-image"}
                            image     = {wfpLOGO}
                 />
                 <Typography>
