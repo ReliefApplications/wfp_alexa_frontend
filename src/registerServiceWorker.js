@@ -43,7 +43,7 @@ let subscribeUser = function() {
     applicationServerKey: applicationServerKey
   })
     .then(function(subscription) {
-      console.log('User is subscribed.');
+      // console.log('User is subscribed.');
 
       updateSubscriptionOnServer(subscription);
 
@@ -51,7 +51,7 @@ let subscribeUser = function() {
       updateBtn();
     })
     .catch(function(err) {
-      console.log('Failed to subscribe the user: ', err);
+      console.error('Failed to subscribe the user: ', err);
       updateBtn();
     });
 };
@@ -60,7 +60,7 @@ let updateBtn = function() {
   if (Notification.permission === 'denied') {
     console.error("denied");
   }
-}
+};
 
 let unsubscribeUser = function() {
   swRegistration.pushManager.getSubscription()
@@ -70,18 +70,18 @@ let unsubscribeUser = function() {
       }
     })
     .catch(function(error) {
-      console.log('Error unsubscribing', error);
+      console.error('Error unsubscribing', error);
     })
     .then(function() {
       updateSubscriptionOnServer(null);
 
-      console.log('User is unsubscribed.');
+      // console.log('User is unsubscribed.');
       isSubscribed = false;
     });
 };
 
 const updateSubscriptionOnServer = function(subscription) {
-  console.log(JSON.stringify(subscription));
+  // console.log(JSON.stringify(subscription));
   // TODO: Send subscription to application server
 
   // const subscriptionJson = document.querySelector('.js-subscription-json');
@@ -119,8 +119,7 @@ export default function register() {
         navigator.serviceWorker.ready.then((registration) => {
           console.log(
             'This web Home is being served cache-first by a service ' +
-              'worker. To learn more, visit https://goo.gl/SC7cgQ'
-          , isSubscribed);
+              'worker. To learn more, visit https://goo.gl/SC7cgQ');
           swRegistration = registration;
         });
       } else {

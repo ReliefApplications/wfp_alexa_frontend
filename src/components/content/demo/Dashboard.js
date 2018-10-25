@@ -11,26 +11,19 @@ import capacityIMG from '../../../assets/images/logos/capacity_strengthening.png
 
 /** Material UI **/
 // import Typography       from '@material-ui/core/Typography';
-// import Card             from '@material-ui/core/Card';
-// import CardContent      from '@material-ui/core/CardContent';
+import Card             from '@material-ui/core/Card';
+import CardHeader       from "@material-ui/core/CardHeader/CardHeader";
 import Grid             from '@material-ui/core/Grid';
 
 /** Components **/
 import WidgetIndicator from '../../widget/Indicator';
 import WidgetGraph     from '../../widget/Graph';
-import CustomLabel     from '../../widget/CustomLabel';
+import {CustomLabelAge, CustomLabelStatus}     from "../../widget/CustomLabel";
 
 /** Plugins **/
-import { VictoryPie   }  from 'victory';
 import { VictoryChart }  from 'victory';
-import { VictoryLine  }  from 'victory';
 import { VictoryBar   }  from 'victory';
 import { VictoryAxis   }  from 'victory';
-import { VictoryTooltip   }  from 'victory';
-import { VictoryStack   }  from 'victory';
-import { VictoryGroup   }  from 'victory';
-import { VictoryScatter   }  from 'victory';
-import CardHeader from "@material-ui/core/CardHeader/CardHeader";
 
 class Dashboard extends Component {
   //------------------------------------------------------------------------//
@@ -40,8 +33,8 @@ class Dashboard extends Component {
     /**
      * This function is used to create the data for the graphs
      */
-    const tableToData = function (data, customLabel, dataToShow, valueToShow, dataDisplayed, dissagregationLabel, dissagregationValue, sortingChoice) {
-      let dataSort = function (a, b) {
+    const tableToData = function (data, customLabel, dataToShow, valueToShow, dataDisplayed, dissagregationLabel, sortingChoice) {
+      let dataSortDesc = function (a, b) {
         if (a.y < b.y) {
           return -1;
         } else if (a.y > b.y) {
@@ -50,167 +43,314 @@ class Dashboard extends Component {
           return 0;
         }
       };
+      let dataSortAsc = function (a, b) {
+        if (a.y < b.y) {
+          return 1;
+        } else if (a.y > b.y) {
+          return -1;
+        } else {
+          return 0;
+        }
+      };
       let res = [];
-      for (let i=data.length-1; i>=0; i--)
-      {
-        if (data[i][dataToShow] === valueToShow) {
-          // if (data[i][dissagregationLabel] === dissagregationValue) {
-            res.push({
-              x: data[i][dissagregationLabel],
-              y: data[i][dataDisplayed],
-              label: data[i][dataDisplayed] + " " + data[i][dissagregationLabel] + " " + valueToShow + " " + customLabel
-            });
-          // }
+      for (let i=data.length-1; i>=0; i--) {
+        if (!dataToShow && !valueToShow) {
+          res.push({
+            x: data[i][dissagregationLabel],
+            y: data[i][dataDisplayed],
+            label: data[i][dataDisplayed] + " " + data[i][dissagregationLabel] + " " + customLabel
+          });
+        }
+        else if (data[i][dataToShow] === valueToShow) {
+          res.push({
+            x: data[i][dissagregationLabel],
+            y: data[i][dataDisplayed],
+            label: data[i][dataDisplayed] + " " + data[i][dissagregationLabel] + " " + valueToShow + " " + customLabel
+          });
         }
       }
       switch (sortingChoice) {
-        case "data":
-          res.sort(dataSort);
+        case "asc":
+          res.sort(dataSortAsc);
+          break;
+        case "desc":
+          res.sort(dataSortDesc);
           break;
         default:
       }
       return res;
     };
+    const calculMaxValue = function(data, attribute) {
+      let maxValue = 0;
+      data.forEach((row) => {
+        if (row[attribute] > maxValue) {
+          maxValue = row[attribute];
+        }
+      });
+      return maxValue;
+    };
+    this.props.importedData[2].max = Math.round(calculMaxValue(this.props.importedData[2].raw, "Number of beneficiaries")/100000)*100000+100000;
+    this.props.importedData[3].max = Math.round(calculMaxValue(this.props.importedData[3].raw, "Number of beneficiaries")/100000)*100000+200000;
+
     return (
       // The padding prevent the page to be too wide because of the option spacing
       <div style={{ padding: 12 }}>
         {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
         {this.props.importedData &&
         (
-          <div className="content-row">
-            {/* First column */}
-            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
-              {/* A widdgetIndicator can be used to show an image and a value */}
-              <Grid item> {/* item of the container that uses bootstrap breakpoints */}
-                {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
-                {this.props.importedData[0] && this.props.importedData[0].food
-                && (<WidgetIndicator title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
-                                                              img={foodIMG} //The image displayed on the left of the widget
-                                                              data={this.props.importedData[0].food}/>)} {/* The data is the value */}
-              </Grid>
-              <Grid item>
-                {this.props.importedData[0] && this.props.importedData[0].cbt
-                && (<WidgetIndicator title="Amount of cash based transfers to beneficiaries"
-                                                              img={moneyIMG}
-                                                              data={this.props.importedData[0].cbt}/>
-                )}
-              </Grid>
-              <Grid item>
-                {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
-                && (<WidgetIndicator title="Amount invested in strengthening capacities of national actors and supporting partners"
-                                                              img={capacityIMG}
-                                                              data={this.props.importedData[1].capacity_strengthening}/>)}
-              </Grid>
-            </Grid>
+          <div>
+            <Grid container spacing={24}>  {/* Spacing = space between cards */}
+              {/* First column */}
+                <Grid container direction="column" item xs={12} sm={1} md={3}>
+                  <Grid item>
+                    <Card>
+                      <CardHeader title={"What assistance did we provide ?"}
+                                  style={{
+                                    background: "#97d700",
+                                    color: "white"
+                                  }}
+                      />
+                    </Card>
+                  </Grid>
+                  <Grid item> {/* item of the container that uses bootstrap breakpoints */}
+                    {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
+                    {this.props.importedData[0] && this.props.importedData[0].food
+                    && (<WidgetIndicator title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
+                                                                img={foodIMG} //The image displayed on the left of the widget
+                                                                data={this.props.importedData[0].food}/>)} {/* The data is the value */}
+                  </Grid>
+                  <Grid item>
+                    {this.props.importedData[0] && this.props.importedData[0].cbt
+                    && (<WidgetIndicator title="Amount of cash based transfers to beneficiaries"
+                                                                  img={moneyIMG}
+                                                                  data={this.props.importedData[0].cbt}/>
+                    )}
+                  </Grid>
+                  <Grid item>
+                  {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
+                  && (<WidgetIndicator title="Amount invested in strengthening capacities of national actors and supporting partners"
+                                                                img={capacityIMG}
+                                                                data={this.props.importedData[1].capacity_strengthening}/>)}
+                </Grid>
+                </Grid>
             {/* En of the first column */}
 
-            {/* Second column */}
-            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
-              {/* Double bar chart example */}
-              <Grid item>
-                {
-                  (
-                    <WidgetGraph  title = "Double bar chart example"
-                                  graph = {
-                                    <div>
-                                      <VictoryGroup horizontal
-                                                    domainPadding={50}
-                                                    height={170}
-                                                    domain={{ x: [0, 700000] }}
-                                                    padding={{ top: 0, bottom: 0, left: 40, right: 0 }}
-                                      >
-                                        <VictoryBar labels={(d) => d.y}
-                                                    labelComponent={<CustomLabel/>}
-                                                    style  = {{
-                                                      data:
-                                                        { fill: (data) => {
-                                                          if (data.x === "Male") {
-                                                            return "#19486a";
-                                                          }
-                                                          else if (data.x === "Female") {
-                                                            return "#26bde2";
-                                                          }
-                                                          },
-                                                          width: 70
-                                                        }
-                                                    }}
-                                                    data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (< 5)", "Number of beneficiaries", "Sex")}
-                                        />
-                                        <VictoryLine style={{ data: { strokeWidth: 3, strokeDasharray: "5, 5" } }}
-                                                     data={[
-                                                       { x: 0, y: "Male" },
-                                                       { x: 700000, y: "Male" }
-                                                     ]}
-                                        />
-                                        <VictoryAxis style={{ tickLabels: { "padding": 10, "fill": "black", "stroke": "transparent" } }} dependentAxis
-                                                     height={170}
-                                        />
-                                      </VictoryGroup>
-                                      {/*<VictoryChart domainPadding={50}*/}
-                                                    {/*height={170}*/}
-                                                    {/*domain={{ x: [0, 700000] }}*/}
-                                                    {/*padding={{ top: 0, bottom: 0, left: 40, right: 0 }}*/}
-                                      {/*>*/}
-                                        {/*<VictoryBar*/}
-                                          {/*horizontal*/}
-                                          {/*labels={(d) => d.y}*/}
-                                          {/*labelComponent={<CustomLabel/>}*/}
-                                          {/*style  = {{*/}
-                                            {/*data:*/}
-                                              {/*{ fill: (data) => {*/}
-                                                {/*if (data.x === "Male") {*/}
-                                                  {/*return "#19486a";*/}
-                                                {/*}*/}
-                                                {/*else if (data.x === "Female") {*/}
-                                                  {/*return "#26bde2";*/}
-                                                {/*}*/}
-                                                {/*},*/}
-                                                {/*width: 70,*/}
-                                                {/*tickLabels: null*/}
-                                              {/*}*/}
-                                          {/*}}*/}
-                                          {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}*/}
-                                        {/*/>*/}
-                                      {/*</VictoryChart>*/}
-                                      {/*<VictoryChart domainPadding={50}*/}
-                                                    {/*height={170}*/}
-                                                    {/*domain={{ x: [0, 700000] }}*/}
-                                                    {/*padding={{ top: 0, bottom: 0, left: 40, right: 0 }}*/}
-                                      {/*>*/}
-                                        {/*<VictoryBar*/}
-                                          {/*horizontal*/}
-                                          {/*labels={(d) => d.y}*/}
-                                          {/*labelComponent={<CustomLabel/>}*/}
-                                          {/*style  = {{*/}
-                                            {/*data:*/}
-                                              {/*{ fill: (data) => {*/}
-                                                {/*if (data.x === "Male") {*/}
-                                                  {/*return "#19486a";*/}
-                                                {/*}*/}
-                                                {/*else if (data.x === "Female") {*/}
-                                                  {/*return "#26bde2";*/}
-                                                {/*}*/}
-                                                {/*},*/}
-                                                {/*width: 70,*/}
-                                                {/*tickLabels: null*/}
-                                              {/*}*/}
-                                          {/*}}*/}
-                                          {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}*/}
-                                        {/*/>*/}
-                                      {/*</VictoryChart>*/}
-                                      {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}*/}
-                                      {/*data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}*/}
-                                    </div>
-                                  }
+              {/* Second column */}
+              <Grid container direction="column" item xs={12} sm={8} md={6}>
+                <Grid item>
+                  <Card>
+                    <CardHeader title={"Who are the " + this.props.importedData[2].total + " people that we directly assisted ?"}
+                                style={{
+                                  background: "#0a6eb4",
+                                  color: "white"
+                                }}
                     />
+                  </Card>
+                </Grid>
+                <Grid item>
+                    <WidgetGraph  graph = {
+                                      <div className={"stacked-charts"}>
+                                        <VictoryChart domainPadding={10}
+                                                      height={55}
+                                                      domain={{ x: [0, this.props.importedData[2].max] }}
+                                                      padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
+                                        >
+                                          <VictoryBar horizontal
+                                                      labels={(d) => d.y}
+                                                      labelComponent={<CustomLabelAge max={this.props.importedData[2].max}/>}
+                                                      style  = {{
+                                                        data:
+                                                          { fill: (data) => {
+                                                              if (data.x === "Male") {
+                                                                return "#19486a";
+                                                              }
+                                                              else if (data.x === "Female") {
+                                                                return "#26bde2";
+                                                              }
+                                                            },
+                                                            width: 22
+                                                          }
+                                                      }}
+                                                      data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (< 5)", "Number of beneficiaries", "Sex")}
+                                          />
+                                          <VictoryAxis dependentAxis
+                                                       height={55}
+                                                       label="Children (< 5)"
+                                                       style={{
+                                                         axis: {stroke: "#c0c0c0", strokeWidth: 2},
+                                                         axisLabel: {fill: "#0a6eb4", fontSize: 10, padding: 50, angle: 360 },
+                                                         tickLabels: {fontSize: 0}
+                                                       }}
+                                          />
+                                          <VictoryAxis style={{
+                                                          axis: {stroke: "#c0c0c0", strokeWidth: 1, strokeDasharray: '4,4'},
+                                                          tickLabels: {fontSize: 0}
+                                                        }}
+                                                       offsetY={0}
+                                          />
+                                          <VictoryAxis  dependentAxis
+                                                        orientation="top"
+                                                        offsetY={0}
+                                                        style={{
+                                                          axis: {stroke: "#c0c0c0", strokeWidth: 1, strokeDasharray: '4,4'},
+                                                          tickLabels: {fontSize: 0}
+                                                        }}
+                                          />
+                                        </VictoryChart>
 
-                )}
+                                        <VictoryChart domainPadding={10}
+                                                      height={55}
+                                                      domain={{x: [0, this.props.importedData[2].max]}}
+                                                      padding={{top: 5, bottom: 5, left: 100, right: 0}}
+                                        >
+                                          <VictoryBar horizontal
+                                                      labels={(d) => d.y}
+                                                      labelComponent={<CustomLabelAge max={this.props.importedData[2].max}/>}
+                                                      style  = {{
+                                                        data:
+                                                          {
+                                                            fill: (data) => {
+                                                              if (data.x === "Male") {
+                                                                return "#19486a";
+                                                              }
+                                                              else if (data.x === "Female") {
+                                                                return "#26bde2";
+                                                              }
+                                                            },
+                                                            width: 22
+                                                          }
+                                                      }}
+                                                      data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}
+                                          />
+                                          <VictoryAxis  dependentAxis
+                                                        height={55}
+                                                        label="Children (5-18)"
+                                                        style={{
+                                                          axis: {stroke: "#c0c0c0", strokeWidth: 2},
+                                                          axisLabel: {fill: "#0a6eb4", fontSize: 10, padding: 50, angle: 360},
+                                                          tickLabels: {fontSize: 0}
+                                                        }}
+                                          />
+                                          <VictoryAxis  offsetY={0}
+                                                        style={{
+                                                          axis: {stroke: "#c0c0c0", strokeWidth: 1, strokeDasharray: '4,4'},
+                                                          tickLabels: {fontSize: 0}
+                                                        }}
+                                          />
+                                        </VictoryChart>
+
+                                        <VictoryChart domainPadding={10}
+                                                      height={55}
+                                                      domain={{ x: [0, this.props.importedData[2].max] }}
+                                                      padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
+                                        >
+                                          <VictoryBar horizontal
+                                                      labels={(d) => d.y}
+                                                      labelComponent={<CustomLabelAge max={this.props.importedData[2].max}/>}
+                                                      style  = {{
+                                                        data:
+                                                          { fill: (data) => {
+                                                              if (data.x === "Male") {
+                                                                return "#19486a";
+                                                              }
+                                                              else if (data.x === "Female") {
+                                                                return "#26bde2";
+                                                              }
+                                                            },
+                                                            width: 22
+                                                          }
+                                                      }}
+                                                      data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}
+                                          />
+                                          <VictoryAxis dependentAxis
+                                                       height={55}
+                                                       label="Adults (>18)"
+                                                       style={{
+                                                         axis: {stroke: "#c0c0c0", strokeWidth: 2},
+                                                         axisLabel: {fill: "#0a6eb4", fontSize: 10, padding: 50, angle: 360 },
+                                                         tickLabels: {fontSize: 0}
+                                                       }}
+                                          />
+                                          <VictoryAxis  offsetY={0}
+                                                        style={{
+                                                          axis: {stroke: "#c0c0c0", strokeWidth: 1, strokeDasharray: '4,4'},
+                                                          tickLabels: {fontSize: 0}
+                                                        }}
+                                          />
+                                        </VictoryChart>
+                                      </div>
+                                      }/>
+                    <WidgetGraph  graph = {
+                                      <VictoryChart domainPadding={10}
+                                                      height={150}
+                                                      domain={{ x: [0, this.props.importedData[3].max] }}
+                                                      padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
+                                        >
+                                          <VictoryBar horizontal
+                                                      labels={(d) => d.y}
+                                                      labelComponent={<CustomLabelStatus/>}
+                                                      style  = {{
+                                                        data:
+                                                          { fill: (data) => {
+                                                              if (data.x === "Refugees") {
+                                                                return "#dd1367";
+                                                              }
+                                                              else if (data.x === "IDP") {
+                                                                return "#97d700";
+                                                              }
+                                                              else if (data.x === "Residents") {
+                                                                return "#0a6eb4";
+                                                              }
+                                                              else if (data.x === "Returnees") {
+                                                                return "#67737c";
+                                                              }
+                                                            },
+                                                            width: 22
+                                                          }
+                                                      }}
+                                                      data   = {tableToData(this.props.importedData[3].raw, "assisted", null, null, "Number of beneficiaries", "Residence Status", "desc")}
+                                          />
+                                          <VictoryAxis dependentAxis
+                                                       height={150}
+                                                       style={{
+                                                         axis: {stroke: "#c0c0c0", strokeWidth: 2},
+                                                         axisLabel: {fill: "#0a6eb4", fontSize: 10, padding: 50, angle: 360 },
+                                                         tickLabels: {fill: (data) => {
+                                                           let sortedArray = this.props.importedData[3].raw.sort(function (a, b) {
+                                                             if (a['Number of beneficiaries'] < b['Number of beneficiaries']) {
+                                                               return -1;
+                                                             } else if (a['Number of beneficiaries'] > b['Number of beneficiaries']) {
+                                                               return 1;
+                                                             } else {
+                                                               return 0;
+                                                             }
+                                                           });
+                                                             if (sortedArray[data-1]['Residence Status'] === "Refugees") {
+                                                               return "#dd1367";
+                                                             }
+                                                             else if (sortedArray[data-1]['Residence Status'] === "IDP") {
+                                                               return "#97d700";
+                                                             }
+                                                             else if (sortedArray[data-1]['Residence Status'] === "Residents") {
+                                                               return "#0a6eb4";
+                                                             }
+                                                             else if (sortedArray[data-1]['Residence Status'] === "Returnees") {
+                                                               return "#67737c";
+                                                             }
+                                                           }
+                                                           ,
+                                                           fontSize: 8
+                                                         }
+                                                       }}
+                                          />
+                                        </VictoryChart>
+                                      }/>
+                </Grid>
               </Grid>
-            </Grid>
 
-            {/* Third column */}
-            <Grid container spacing={24} className="content-column">  {/* Spacing = space between cards */}
-
+              {/* Third column */}
+              <Grid container direction="column">
+              </Grid>
             </Grid>
           </div>
         )}

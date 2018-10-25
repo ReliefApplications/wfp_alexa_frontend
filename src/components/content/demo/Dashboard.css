@@ -8,13 +8,12 @@
   padding      : 0 !important;
 }
 
-.content-column {
-  flex-direction: column;
-}
-
 /*------------------------------------------------------------------------//
 //------------------------------- Widgets --------------------------------//
 //------------------------------------------------------------------------*/
+.stacked-charts .VictoryContainer {
+  height: 33.33333% !important;
+}
 /** External widgets **/
 /*.widget-container {*/
   /*display       : flex;*/
