@@ -8,6 +8,37 @@
   padding      : 0 !important;
 }
 
+.heading-title {
+  color: #FFFFFF;
+}
+
+#background {
+  position: absolute;
+  background-color: rgba(0,0,0,0.4);
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -5;
+}
+
+/*body .test {*/
+  /*padding: 12px;*/
+  /*filter: blur(1px) opacity(50%);*/
+/*}*/
+/*body .test2 {*/
+  /*filter: blur(0px) opacity(100%);*/
+/*}*/
+
+
+.gender.true {
+  filter: blur(0.05em) opacity(40%);
+}
+
+gender {
+  filter: blur(0px) opacity(100%);
+}
+
 /*------------------------------------------------------------------------//
 //------------------------------- Widgets --------------------------------//
 //------------------------------------------------------------------------*/

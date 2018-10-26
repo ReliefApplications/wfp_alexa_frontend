@@ -16,7 +16,7 @@ import './Widget.css';
 class WidgetIndicator extends Component {
   render() {
     return (
-      <div>
+      <div className={this.props.className}>
         <Card className="indicator-container">
           <CardMedia className = "widget-image"
                      image     = {this.props.img}

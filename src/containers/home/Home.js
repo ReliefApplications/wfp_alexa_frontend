@@ -19,7 +19,7 @@ import Card from "@material-ui/core/Card/Card";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 /** API/socket **/
-import { subscribeToDashboardChanges } from '../../core/utils/api';
+import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
 
 
 /**
@@ -31,8 +31,9 @@ class Home extends React.Component {
     this.state = {
       content                  : Dashboard,
       // The global country is the home of the website
-      country : 'Global',
-      loading          : true, // In order to use the loader
+      country     : 'Global',
+      number      : 0,
+      loading     : true, // In order to use the loader
       importedData: {}
     };
     subscribeToDashboardChanges((userId, country, data) => {
@@ -41,6 +42,16 @@ class Home extends React.Component {
         this.setState({
           country: country,
           importedData: data,
+          loading: false,
+          number: 0
+        });
+      }
+    });
+    subscribeToDashboardFocus((userId, number) => {
+      console.log(number);
+      if (number !== {}) {
+        this.setState({
+          number: number,
           loading: false
         });
       }
@@ -67,12 +78,13 @@ class Home extends React.Component {
         <Header sendToHome={this.selectProjectFromHeader} country={this.state.country}/>
 
         {/* Loader waiting for the data */}
-        {this.state.loading          && (<CircularProgress id="loader" className={"loader"} thickness={7} />)}
+        {this.state.loading               && (<CircularProgress id="loader" className={"loader"} thickness={7} />)}
         {/* Content */}
-        {!this.state.loading         && this.state.country !== "Global"          && (<this.state.content          importedData = {importedData}/>)}
+        {!this.state.loading              && this.state.country !== "Global"
+                                          && (<this.state.content number={this.state.number} importedData = {importedData}/>)}
 
         {/* Home Content */}
-        {this.state.country === "Global"         && (
+        {this.state.country === "Global"  && (
           <div>
             <Card className="indicator-container">
               <CardContent className="widget-text">

@@ -63,7 +63,7 @@ class WidgetGraph extends Component {
     const { anchorProject } = this.state;
 
     return (
-      <div>
+      <div className={this.props.className}>
         <Card className="widget-container">
           <CardHeader
               action={this.props.data !== undefined ?

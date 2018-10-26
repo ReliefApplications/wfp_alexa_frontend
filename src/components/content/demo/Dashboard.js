@@ -10,9 +10,9 @@ import moneyIMG    from '../../../assets/images/logos/money.png';
 import capacityIMG from '../../../assets/images/logos/capacity_strengthening.png';
 
 /** Material UI **/
-// import Typography       from '@material-ui/core/Typography';
+import Typography       from '@material-ui/core/Typography';
 import Card             from '@material-ui/core/Card';
-import CardHeader       from "@material-ui/core/CardHeader/CardHeader";
+import CardContent       from "@material-ui/core/CardContent/CardContent";
 import Grid             from '@material-ui/core/Grid';
 
 /** Components **/
@@ -92,59 +92,62 @@ class Dashboard extends Component {
     this.props.importedData[2].max = Math.round(calculMaxValue(this.props.importedData[2].raw, "Number of beneficiaries")/100000)*100000+100000;
     this.props.importedData[3].max = Math.round(calculMaxValue(this.props.importedData[3].raw, "Number of beneficiaries")/100000)*100000+200000;
 
+    console.log("ici", this.props.number, (this.props.number ? "oui": "non"));
     return (
       // The padding prevent the page to be too wide because of the option spacing
-      <div style={{ padding: 12 }}>
+      <div className={"test"}>
         {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
         {this.props.importedData &&
         (
           <div>
             <Grid container spacing={24}>  {/* Spacing = space between cards */}
               {/* First column */}
-                <Grid container direction="column" item xs={12} sm={1} md={3}>
-                  <Grid item>
-                    <Card>
-                      <CardHeader title={"What assistance did we provide ?"}
-                                  style={{
-                                    background: "#97d700",
-                                    color: "white"
-                                  }}
-                      />
-                    </Card>
-                  </Grid>
-                  <Grid item> {/* item of the container that uses bootstrap breakpoints */}
-                    {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
-                    {this.props.importedData[0] && this.props.importedData[0].food
-                    && (<WidgetIndicator title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
-                                                                img={foodIMG} //The image displayed on the left of the widget
-                                                                data={this.props.importedData[0].food}/>)} {/* The data is the value */}
-                  </Grid>
-                  <Grid item>
-                    {this.props.importedData[0] && this.props.importedData[0].cbt
-                    && (<WidgetIndicator title="Amount of cash based transfers to beneficiaries"
-                                                                  img={moneyIMG}
-                                                                  data={this.props.importedData[0].cbt}/>
-                    )}
-                  </Grid>
-                  <Grid item>
-                  {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
-                  && (<WidgetIndicator title="Amount invested in strengthening capacities of national actors and supporting partners"
-                                                                img={capacityIMG}
-                                                                data={this.props.importedData[1].capacity_strengthening}/>)}
-                </Grid>
-                </Grid>
-            {/* En of the first column */}
-
-              {/* Second column */}
-              <Grid container direction="column" item xs={12} sm={8} md={6}>
+              <Grid container direction="column" item xs={12} sm={1} md={3} className={"gender " + (this.props.number !== 0 && this.props.number !== null).toString()}>
                 <Grid item>
                   <Card>
-                    <CardHeader title={"Who are the " + this.props.importedData[2].total + " people that we directly assisted ?"}
-                                style={{
-                                  background: "#0a6eb4",
-                                  color: "white"
-                                }}
-                    />
+                    <CardContent style={{background: "#97d700"}}>
+                      <Typography color="primary"
+                                  variant={"title"}
+                      >
+                        What assistance did we provide ?
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item> {/* item of the container that uses bootstrap breakpoints */}
+                  {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
+                  {this.props.importedData[0] && this.props.importedData[0].food
+                  && (<WidgetIndicator  title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
+                                        img={foodIMG} //The image displayed on the left of the widget
+                                        data={this.props.importedData[0].food}/>)} {/* The data is the value */}
+                </Grid>
+                <Grid item>
+                  {this.props.importedData[0] && this.props.importedData[0].cbt
+                  && (<WidgetIndicator  title="Amount of cash based transfers to beneficiaries"
+                                        img={moneyIMG}
+                                        data={this.props.importedData[0].cbt}/>
+                  )}
+                </Grid>
+                <Grid item>
+                {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
+                && (<WidgetIndicator   title="Amount invested in strengthening capacities of national actors and supporting partners"
+                                       img={capacityIMG}
+                                       data={this.props.importedData[1].capacity_strengthening}/>)}
+              </Grid>
+              </Grid>
+              {/* En of the first column */}
+
+              {/* Second column */}
+              <Grid container direction="column" item xs={12} sm={8} md={6} className={"gender " + (this.props.number === null).toString()}>
+                <Grid item>
+                  <Card>
+                    <CardContent style={{background: "#0a6eb4"}}>
+                      <Typography color="primary"
+                                  variant={"title"}
+                      >
+                        Who are the {this.props.importedData[2].total} people that we directly assisted ?
+                      </Typography>
+                    </CardContent>
                   </Card>
                 </Grid>
                 <Grid item>
@@ -170,6 +173,14 @@ class Dashboard extends Component {
                                                             },
                                                             width: 22
                                                           }
+                                                      }}
+                                                      animate={{
+                                                        onEnter: {
+                                                          duration: 300,
+                                                          before: () => ({
+                                                            _y: 0,
+                                                          })
+                                                        }
                                                       }}
                                                       data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (< 5)", "Number of beneficiaries", "Sex")}
                                           />
@@ -220,6 +231,14 @@ class Dashboard extends Component {
                                                             width: 22
                                                           }
                                                       }}
+                                                      animate={{
+                                                        onEnter: {
+                                                          duration: 300,
+                                                          before: () => ({
+                                                            _y: 0,
+                                                          })
+                                                        }
+                                                      }}
                                                       data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Children (5-18)", "Number of beneficiaries", "Sex")}
                                           />
                                           <VictoryAxis  dependentAxis
@@ -259,6 +278,14 @@ class Dashboard extends Component {
                                                             },
                                                             width: 22
                                                           }
+                                                      }}
+                                                      animate={{
+                                                        onEnter: {
+                                                          duration: 300,
+                                                          before: () => ({
+                                                            _y: 0,
+                                                          })
+                                                        }
                                                       }}
                                                       data   = {tableToData(this.props.importedData[2].raw, "assisted", "Age groups", "Adults (>18)", "Number of beneficiaries", "Sex")}
                                           />
@@ -308,6 +335,14 @@ class Dashboard extends Component {
                                                             width: 22
                                                           }
                                                       }}
+                                                      animate={{
+                                                        onEnter: {
+                                                          duration: 300,
+                                                          before: () => ({
+                                                            _y: 0,
+                                                          })
+                                                        }
+                                                      }}
                                                       data   = {tableToData(this.props.importedData[3].raw, "assisted", null, null, "Number of beneficiaries", "Residence Status", "desc")}
                                           />
                                           <VictoryAxis dependentAxis
@@ -346,8 +381,7 @@ class Dashboard extends Component {
                                         </VictoryChart>
                                       }/>
                 </Grid>
-              </Grid>
-
+      </Grid>
               {/* Third column */}
               <Grid container direction="column">
               </Grid>

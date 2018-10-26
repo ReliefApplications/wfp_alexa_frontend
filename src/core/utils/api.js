@@ -9,4 +9,12 @@ function subscribeToDashboardChanges(callback) {
   });
 }
 
-export { subscribeToDashboardChanges }
+function subscribeToDashboardFocus(callback) {
+  socket.on('dashboardFocus', (userId, number) => {
+    // if(userId === '78910') {
+      callback(userId, number);
+    // }
+  });
+}
+
+export { subscribeToDashboardChanges, subscribeToDashboardFocus }
