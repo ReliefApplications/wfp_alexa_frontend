@@ -37,7 +37,6 @@ class Home extends React.Component {
       importedData: {}
     };
     subscribeToDashboardChanges((userId, country, data) => {
-      // console.log(data);
       if (data !== {}) {
         this.setState({
           country: country,
@@ -81,7 +80,7 @@ class Home extends React.Component {
         {this.state.loading               && (<CircularProgress id="loader" className={"loader"} thickness={7} />)}
         {/* Content */}
         {!this.state.loading              && this.state.country !== "Global"
-                                          && (<this.state.content number={this.state.number} importedData = {importedData}/>)}
+                                          && (<this.state.content number={this.state.number} importedData = {importedData} background={this.state.country.toLowerCase() + ".png"}/>)}
 
         {/* Home Content */}
         {this.state.country === "Global"  && (

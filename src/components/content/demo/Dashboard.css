@@ -22,15 +22,6 @@
   z-index: -5;
 }
 
-/*body .test {*/
-  /*padding: 12px;*/
-  /*filter: blur(1px) opacity(50%);*/
-/*}*/
-/*body .test2 {*/
-  /*filter: blur(0px) opacity(100%);*/
-/*}*/
-
-
 .gender.true {
   filter: blur(0.05em) opacity(40%);
 }
@@ -45,34 +36,3 @@ gender {
 .stacked-charts .VictoryContainer {
   height: 33.33333% !important;
 }
-/** External widgets **/
-/*.widget-container {*/
-  /*display       : flex;*/
-  /*height: 460px;*/
-  /*margin: 40px 20px 0px;*/
-/*}*/
-/*.widget-text{*/
-  /*display         : flex;*/
-  /*flex-direction  : column;*/
-  /*justify-content : center;*/
-  /*text-align      : center;*/
-  /*margin          : 0 auto;*/
-  /*padding         : 16px 10px 10px;*/
-/*}*/
-/*!** 'Mapped elements' div **!*/
-/*.widget-mappedElements-text{*/
-  /*display         : flex;*/
-  /*flex-direction  : row;*/
-  /*justify-content : space-evenly;*/
-  /*width           : 100%;*/
-  /*margin-top      : 10px;*/
-/*}*/
-/*.widget-mappedElements-text-item-green{*/
-  /*padding          : 10px;*/
-  /*background-color : #0a6eb4;*/
-  /*color            : white;*/
-/*}*/
-/*.widget-mappedElements-text-item-grey{*/
-  /*padding          : 10px;*/
-  /*background-color : #E1E0E0;*/
-/*}*/

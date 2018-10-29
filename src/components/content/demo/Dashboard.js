@@ -24,6 +24,7 @@ import {CustomLabelAge, CustomLabelStatus}     from "../../widget/CustomLabel";
 import { VictoryChart }  from 'victory';
 import { VictoryBar   }  from 'victory';
 import { VictoryAxis   }  from 'victory';
+import Background from "../../../assets/images/logos/afghanistan.png";
 
 class Dashboard extends Component {
   //------------------------------------------------------------------------//
@@ -91,11 +92,10 @@ class Dashboard extends Component {
     };
     this.props.importedData[2].max = Math.round(calculMaxValue(this.props.importedData[2].raw, "Number of beneficiaries")/100000)*100000+100000;
     this.props.importedData[3].max = Math.round(calculMaxValue(this.props.importedData[3].raw, "Number of beneficiaries")/100000)*100000+200000;
-
-    console.log("ici", this.props.number, (this.props.number ? "oui": "non"));
+    this.background = require('../../../assets/images/logos/afghanistan.png');
     return (
       // The padding prevent the page to be too wide because of the option spacing
-      <div className={"test"}>
+      <div  style={{backgroundImage: `url(${this.background})`}}>
         {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
         {this.props.importedData &&
         (
@@ -152,8 +152,9 @@ class Dashboard extends Component {
                 </Grid>
                 <Grid item>
                     <WidgetGraph  graph = {
-                                      <div className={"stacked-charts"}>
-                                        <VictoryChart domainPadding={10}
+                                      <div>
+                                        <div className={"stacked-charts"}>
+                                          <VictoryChart domainPadding={10}
                                                       height={55}
                                                       domain={{ x: [0, this.props.importedData[2].max] }}
                                                       padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
@@ -209,7 +210,7 @@ class Dashboard extends Component {
                                           />
                                         </VictoryChart>
 
-                                        <VictoryChart domainPadding={10}
+                                          <VictoryChart domainPadding={10}
                                                       height={55}
                                                       domain={{x: [0, this.props.importedData[2].max]}}
                                                       padding={{top: 5, bottom: 5, left: 100, right: 0}}
@@ -258,7 +259,7 @@ class Dashboard extends Component {
                                           />
                                         </VictoryChart>
 
-                                        <VictoryChart domainPadding={10}
+                                          <VictoryChart domainPadding={10}
                                                       height={55}
                                                       domain={{ x: [0, this.props.importedData[2].max] }}
                                                       padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
@@ -305,7 +306,13 @@ class Dashboard extends Component {
                                                         }}
                                           />
                                         </VictoryChart>
+                                        </div>
+                                        <div>
+                                          <img src={require('../../../assets/images/logos/men.png')} alt={""} />
+                                          <img src={require('../../../assets/images/logos/women.png')} alt={""} />
+                                        </div>
                                       </div>
+
                                       }/>
                     <WidgetGraph  graph = {
                                       <VictoryChart domainPadding={10}
