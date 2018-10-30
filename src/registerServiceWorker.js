@@ -17,7 +17,7 @@ const isLocalhost = Boolean(
       /^127(?:\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)){3}$/
     )
 );
-const applicationServerPublicKey = 'BOL8IYloeqGqi1QYNJKksObjS0rQ5ZbXb4Q2OQG3naSLfKl5q1eQsSpFHhkSnXb7jVsSWmYlAVMivH0YXFUvzyc';
+const applicationServerPublicKey = 'BEqB-4zEh1XYhbNbphXKyQuIgYzReVw6uNhKnZkW_pEtdy1_5cvkqsHFXcKYd-SY_z9-SGMNEn4GLqfhAJW9tgk';
 let isSubscribed = false;
 let swRegistration = null;
 
@@ -43,23 +43,17 @@ let subscribeUser = function() {
     applicationServerKey: applicationServerKey
   })
     .then(function(subscription) {
-      // console.log('User is subscribed.');
+      console.log('User is subscribed.');
 
-      updateSubscriptionOnServer(subscription);
+      updateSubscriptionOnServer(subscription)
+        .then((res) => {console.log("update", res)});
 
       isSubscribed = true;
-      updateBtn();
     })
     .catch(function(err) {
+      unsubscribeUser();
       console.error('Failed to subscribe the user: ', err);
-      updateBtn();
     });
-};
-
-let updateBtn = function() {
-  if (Notification.permission === 'denied') {
-    console.error("denied");
-  }
 };
 
 let unsubscribeUser = function() {
@@ -73,31 +67,43 @@ let unsubscribeUser = function() {
       console.error('Error unsubscribing', error);
     })
     .then(function() {
-      updateSubscriptionOnServer(null);
+      updateSubscriptionOnServer(null)
+        .then((res) => {console.log("update", res)});
 
-      // console.log('User is unsubscribed.');
+      console.log('User is unsubscribed.');
       isSubscribed = false;
     });
 };
 
-const updateSubscriptionOnServer = function(subscription) {
-  // console.log(JSON.stringify(subscription));
+const updateSubscriptionOnServer = async function(subscription) {
   // TODO: Send subscription to application server
-
-  // const subscriptionJson = document.querySelector('.js-subscription-json');
-  // const subscriptionDetails =
-    // document.querySelector('.js-subscription-details');
-
   if (subscription) {
-    // subscriptionDetails.classList.remove('is-invisible');
+    await fetch('https://wfp-alexa.test.humanitarian.tech/subscribe', {
+      method: 'POST',
+      body: JSON.stringify(subscription),
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(function(response) {
+        if (!response.ok) {
+          throw new Error('Bad status code from server.');
+        }
+        return response.json();
+      })
+      .then(function(responseData) {
+        if (!(responseData.data && responseData.data.success)) {
+          throw new Error('Bad response from server.');
+        }
+      });
   } else {
-    // subscriptionDetails.classList.add('is-invisible');
+    console.error("There is no subscription.");
   }
 };
 
 export default function register() {
-  // if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  // if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {

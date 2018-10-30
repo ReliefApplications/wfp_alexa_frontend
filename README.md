@@ -23,7 +23,13 @@ To get more help on React use `npm help` or go check out the [React README](http
 
     - @material-ui/core
     - @material-ui/icons
+    - guid
+    - mqtt
+    - socket.io
+    - socket.io-client
+    - superagent
     - victory
+    - web-push
 
 ## Material
 
@@ -52,6 +58,6 @@ sudo docker-compose up devapp
 
 If it's the first time, please run 
 ```bash
-sudo ./docker-build.sh hot/dashboard
+sudo ./docker-build.sh wfp/proofofwork
 ```
  
