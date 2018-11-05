@@ -15,12 +15,13 @@
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "superagent": "^4.0.0-beta.5",
+    "sw-precache": "^5.2.1",
     "victory": "^30.2.0",
     "web-push": "^3.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && sw-precache --config=sw-precache-config.js",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

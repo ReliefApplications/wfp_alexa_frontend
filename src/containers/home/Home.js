@@ -19,7 +19,7 @@ import Card from "@material-ui/core/Card/Card";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 /** API/socket **/
-import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
+// import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
 
 
 /**
@@ -36,25 +36,25 @@ class Home extends React.Component {
       loading     : true, // In order to use the loader
       importedData: {}
     };
-    subscribeToDashboardChanges((userId, country, data) => {
-      if (data !== {}) {
-        this.setState({
-          country: country,
-          importedData: data,
-          loading: false,
-          number: 0
-        });
-      }
-    });
-    subscribeToDashboardFocus((userId, number) => {
-      console.log(number);
-      if (number !== {}) {
-        this.setState({
-          number: number,
-          loading: false
-        });
-      }
-    });
+    // subscribeToDashboardChanges((userId, country, data) => {
+    //   if (data !== {}) {
+    //     this.setState({
+    //       country: country,
+    //       importedData: data,
+    //       loading: false,
+    //       number: 0
+    //     });
+    //   }
+    // });
+    // subscribeToDashboardFocus((userId, number) => {
+    //   console.log(number);
+    //   if (number !== {}) {
+    //     this.setState({
+    //       number: number,
+    //       loading: false
+    //     });
+    //   }
+    // });
 
     // if ('serviceWorker' in navigator) {
     //   console.log('Registering service worker');

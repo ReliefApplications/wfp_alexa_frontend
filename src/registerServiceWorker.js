@@ -45,8 +45,7 @@ let subscribeUser = function() {
     .then(function(subscription) {
       console.log('User is subscribed.');
 
-      updateSubscriptionOnServer(subscription)
-        .then((res) => {console.log("update", res)});
+      updateSubscriptionOnServer(subscription);
 
       isSubscribed = true;
     })
@@ -76,7 +75,6 @@ let unsubscribeUser = function() {
 };
 
 const updateSubscriptionOnServer = async function(subscription) {
-  // TODO: Send subscription to application server
   if (subscription) {
     await fetch('https://wfp-alexa.test.humanitarian.tech/subscribe', {
       method: 'POST',
@@ -102,8 +100,8 @@ const updateSubscriptionOnServer = async function(subscription) {
 };
 
 export default function register() {
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  // if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
+  // if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
