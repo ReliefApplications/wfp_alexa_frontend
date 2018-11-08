@@ -19,7 +19,7 @@ import Card from "@material-ui/core/Card/Card";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 /** API/socket **/
-// import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
+import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
 
 
 /**
@@ -36,90 +36,26 @@ class Home extends React.Component {
       loading     : true, // In order to use the loader
       importedData: {}
     };
-    // subscribeToDashboardChanges((userId, country, data) => {
-    //   if (data !== {}) {
-    //     this.setState({
-    //       country: country,
-    //       importedData: data,
-    //       loading: false,
-    //       number: 0
-    //     });
-    //   }
-    // });
-    // subscribeToDashboardFocus((userId, number) => {
-    //   console.log(number);
-    //   if (number !== {}) {
-    //     this.setState({
-    //       number: number,
-    //       loading: false
-    //     });
-    //   }
-    // });
-
-    // if ('serviceWorker' in navigator) {
-    //   console.log('Registering service worker');
-    //
-    //   this.run().catch(error => console.error(error));
-    // }
-    if (navigator.serviceWorker) {
-      // navigator.serviceWorker.register('/service-worker-custom.js').then(function () {
-      //   return navigator.serviceWorker.ready;
-      // })
-      //   .then(function (registration) {
-      //     console.log(registration); // service worker is ready and working...
-      //   });
-      // navigator.serviceWorker.addEventListener('message', function (event) {
-      //   console.log("Hello!", event.data.message); // Hello World !
-      // });
-    }
-
-    // this.urlB64ToUint8Array = this.urlB64ToUint8Array.bind(this);
-    // this.run = this.run.bind(this);
+    subscribeToDashboardChanges((userId, country, data) => {
+      if (data !== {}) {
+        this.setState({
+          country: country,
+          importedData: data,
+          loading: false,
+          number: 0
+        });
+      }
+    });
+    subscribeToDashboardFocus((userId, number) => {
+      console.log(number);
+      if (number !== {}) {
+        this.setState({
+          number: number,
+          loading: false
+        });
+      }
+    });
   }
-
-  // urlB64ToUint8Array(base64String) {
-  //   const padding = '='.repeat((4 - base64String.length % 4) % 4);
-  //   const base64 = (base64String + padding)
-  //     .replace(/-/g, '+')
-  //     .replace(/_/g, '/');
-  //
-  //   const rawData = window.atob(base64);
-  //   const outputArray = new Uint8Array(rawData.length);
-  //
-  //   for (let i = 0; i < rawData.length; ++i) {
-  //     outputArray[i] = rawData.charCodeAt(i);
-  //   }
-  //   return outputArray;
-  // }
-  //
-  // async run() {
-  //   const publicVapidKey = 'BEqB-4zEh1XYhbNbphXKyQuIgYzReVw6uNhKnZkW_pEtdy1_5cvkqsHFXcKYd-SY_z9-SGMNEn4GLqfhAJW9tgk';
-  //   console.log('Registering service worker');
-  //   const registration = await navigator.serviceWorker.
-  //     register('/service-worker-custom.js', {scope: '/'});
-  //   console.log('Registered service worker');
-  //
-  //   console.log('Registering push');
-  //   const subscription = await registration.pushManager.
-  //     subscribe({
-  //       userVisibleOnly: true,
-  //       // The `urlBase64ToUint8Array()` function is the same as in
-  //       // https://www.npmjs.com/package/web-push#using-vapid-key-for-applicationserverkey
-  //       applicationServerKey: this.urlB64ToUint8Array(publicVapidKey)
-  //     });
-  //   console.log('Registered push');
-  //
-  //   console.log('Sending push');
-  //   await fetch('http://localhost:12113/subscribe', {
-  //     method: 'POST',
-  //     body: JSON.stringify(subscription),
-  //     headers: {
-  //       'content-type': 'application/json'
-  //     }
-  //   }).then((res) => {console.log("ok", res)})
-  //     .catch((err) => console.error("error: ", err));
-  //   console.log('Sent push');
-  // }
 
   //------------------------------------------------------------------------//
   //---------------------------------- Init --------------------------------//
