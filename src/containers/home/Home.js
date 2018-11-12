@@ -10,6 +10,7 @@ import './Home.css';
 
 /** Logos **/
 import wfpLOGO        from '../../assets/images/logos/world-food-programme.jpg';
+import wfpHOME        from '../../assets/images/dashboard/WFP_AsiaPacific.jpg';
 
 /** Material **/
 import CardMedia from "@material-ui/core/CardMedia/CardMedia";
@@ -38,6 +39,7 @@ class Home extends React.Component {
     };
     subscribeToDashboardChanges((userId, country, data) => {
       if (data !== {}) {
+        console.log(data[4].raw[0].Country.toLowerCase().replace(/\s/g, ''));
         this.setState({
           country: country,
           importedData: data,
@@ -94,6 +96,13 @@ class Home extends React.Component {
                 <Typography>
                   Welcome on the brand new WFP dashboard controlled by Alexa
                 </Typography>
+              </CardContent>
+            </Card>
+            <Card className="indicator-container">
+              <CardContent className="widget-text">
+                <CardMedia className={"widget-difference-image"}
+                           image     = {wfpHOME}
+                />
               </CardContent>
             </Card>
           </div>

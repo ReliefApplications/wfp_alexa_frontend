@@ -8,6 +8,20 @@ import './Dashboard.css';
 import foodIMG     from '../../../assets/images/logos/food.png';
 import moneyIMG    from '../../../assets/images/logos/money.png';
 import capacityIMG from '../../../assets/images/logos/capacity_strengthening.png';
+import afghanistan from '../../../assets/images/dashboard/afghanistan.jpg';
+import bangladesh from '../../../assets/images/dashboard/bangladesh.jpg';
+import bhutan from '../../../assets/images/dashboard/bhutan.jpg';
+import cambodia from '../../../assets/images/dashboard/cambodia.jpg';
+import dprk from '../../../assets/images/dashboard/dprk.jpg';
+import india from '../../../assets/images/dashboard/india.jpg';
+import indonesia from '../../../assets/images/dashboard/indonesia.jpg';
+import laos from '../../../assets/images/dashboard/laos.jpg';
+import myanmar from '../../../assets/images/dashboard/myanmar.jpg';
+import nepal from '../../../assets/images/dashboard/nepal.jpg';
+import pakistan from '../../../assets/images/dashboard/pakistan.jpg';
+import philippines from '../../../assets/images/dashboard/philippines.jpg';
+import srilanka from '../../../assets/images/dashboard/srilanka.jpg';
+import timorleste from '../../../assets/images/dashboard/timorleste.jpg';
 
 /** Material UI **/
 import Typography       from '@material-ui/core/Typography';
@@ -24,7 +38,7 @@ import {CustomLabelAge, CustomLabelStatus}     from "../../widget/CustomLabel";
 import { VictoryChart }  from 'victory';
 import { VictoryBar   }  from 'victory';
 import { VictoryAxis   }  from 'victory';
-import Background from "../../../assets/images/logos/afghanistan.png";
+import CardMedia from "@material-ui/core/CardMedia/CardMedia";
 
 class Dashboard extends Component {
   //------------------------------------------------------------------------//
@@ -93,6 +107,54 @@ class Dashboard extends Component {
     this.props.importedData[2].max = Math.round(calculMaxValue(this.props.importedData[2].raw, "Number of beneficiaries")/100000)*100000+100000;
     this.props.importedData[3].max = Math.round(calculMaxValue(this.props.importedData[3].raw, "Number of beneficiaries")/100000)*100000+200000;
     this.background = require('../../../assets/images/logos/afghanistan.png');
+    const getDifferenceImage = function(country) {
+      let img ='';
+      switch (country) {
+        case "afghanistan":
+          img = afghanistan;
+          break;
+         case "bangladesh":
+           img = bangladesh;
+           break;
+         case "bhutan":
+           img = bhutan;
+           break;
+         case "cambodia":
+           img = cambodia;
+           break;
+         case "dprk":
+           img = dprk
+           break;
+         case "india":
+           img = india;
+           break;
+         case "indonesia":
+           img = indonesia;
+           break;
+        case "laos":
+           img = laos;
+           break;
+         case "myanmar":
+           img = myanmar;
+           break;
+         case "nepal":
+           img = nepal;
+           break;
+         case "pakistan":
+           img = pakistan;
+           break;
+         case "philippines":
+           img = philippines;
+           break;
+         case "srilanka":
+           img = srilanka;
+           break;
+         case "timorleste":
+           img = timorleste;
+           break;
+      }
+      return img;
+    };
     return (
       // The padding prevent the page to be too wide because of the option spacing
       <div  style={{backgroundImage: `url(${this.background})`}}>
@@ -390,7 +452,19 @@ class Dashboard extends Component {
                 </Grid>
       </Grid>
               {/* Third column */}
-              <Grid container direction="column">
+              <Grid container direction="column" item xs={12} sm={1} md={3}>
+                <Grid item>
+                  <Card>
+                    <CardContent style={{background: "#0a6eb4"}}>
+                      <CardMedia className={"widget-difference-image"}
+                                 image     = {getDifferenceImage(this.props.importedData[4].raw[0].Country.toLowerCase().replace(/\s/g, ''))}
+                      />
+                      <Typography>
+                        {this.props.importedData[4].narrative}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
               </Grid>
             </Grid>
           </div>

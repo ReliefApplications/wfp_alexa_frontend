@@ -29,7 +29,7 @@ class Header extends Component {
     return (
       <header className="header">
           {/* Title */}
-          <h2 className="header-title">Overview - {this.upperCaseFirstChar(this.props.country)}</h2>
+          <h1 className="header-title">Overview - {this.upperCaseFirstChar(this.props.country)}</h1>
       </header>
     );
   }

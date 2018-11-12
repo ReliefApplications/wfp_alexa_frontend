@@ -17,7 +17,7 @@
 .header-title {
   justify-content : space-around;
   width : 87%;
-  margin: 0;
+  margin: 5px;
   padding: 0 10px;
   font-weight: 400;
 }
