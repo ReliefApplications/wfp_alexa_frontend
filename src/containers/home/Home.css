@@ -7,6 +7,7 @@
   text-align : center;
   font-family: 'Archivo', sans-serif;
   font-weight: 400;
+  height: 100%;
 }
 
 /*------------------------------------------------------------------------//
@@ -28,7 +29,7 @@
   height: 102px;
 }
 
-.widget-difference-image{
+.widget-difference-image-home{
   width : 900px;
   height: 600px;
 }

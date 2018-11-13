@@ -19,6 +19,8 @@
 .widget-image{
     background-color : #0A6EB4;
     width            : 80px;
+    height           : 80px;
+    padding          : 5px;
 }
 .widget-text{
     display         : flex;
@@ -26,5 +28,8 @@
     justify-content : center;
     text-align      : center;
     margin          : 0 auto;
-    padding         : 10px;
+    padding         : 10px !important;
+}
+.widget-indicator-text{
+    width           : 75%;
 }

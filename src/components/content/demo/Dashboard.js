@@ -3,25 +3,26 @@ import React, { Component } from 'react';
 
 /** CSS **/
 import './Dashboard.css';
+import '../../widget/Widget.css';
 
 /** Logos **/
 import foodIMG     from '../../../assets/images/logos/food.png';
 import moneyIMG    from '../../../assets/images/logos/money.png';
 import capacityIMG from '../../../assets/images/logos/capacity_strengthening.png';
-import afghanistan from '../../../assets/images/dashboard/afghanistan.jpg';
-import bangladesh from '../../../assets/images/dashboard/bangladesh.jpg';
-import bhutan from '../../../assets/images/dashboard/bhutan.jpg';
-import cambodia from '../../../assets/images/dashboard/cambodia.jpg';
-import dprk from '../../../assets/images/dashboard/dprk.jpg';
-import india from '../../../assets/images/dashboard/india.jpg';
-import indonesia from '../../../assets/images/dashboard/indonesia.jpg';
-import laos from '../../../assets/images/dashboard/laos.jpg';
-import myanmar from '../../../assets/images/dashboard/myanmar.jpg';
-import nepal from '../../../assets/images/dashboard/nepal.jpg';
-import pakistan from '../../../assets/images/dashboard/pakistan.jpg';
-import philippines from '../../../assets/images/dashboard/philippines.jpg';
-import srilanka from '../../../assets/images/dashboard/srilanka.jpg';
-import timorleste from '../../../assets/images/dashboard/timorleste.jpg';
+import afghanistanDIFF from '../../../assets/images/dashboard/afghanistan.jpg';
+import bangladeshDIFF from '../../../assets/images/dashboard/bangladesh.jpg';
+import bhutanDIFF from '../../../assets/images/dashboard/bhutan.jpg';
+import cambodiaDIFF from '../../../assets/images/dashboard/cambodia.jpg';
+import dprkDIFF from '../../../assets/images/dashboard/dprk.jpg';
+import indiaDIFF from '../../../assets/images/dashboard/india.jpg';
+import indonesiaDIFF from '../../../assets/images/dashboard/indonesia.jpg';
+import laosDIFF from '../../../assets/images/dashboard/laos.jpg';
+import myanmarDIFF from '../../../assets/images/dashboard/myanmar.jpg';
+import nepalDIFF from '../../../assets/images/dashboard/nepal.jpg';
+import pakistanDIFF from '../../../assets/images/dashboard/pakistan.jpg';
+import philippinesDIFF from '../../../assets/images/dashboard/philippines.jpg';
+import srilankaDIFF from '../../../assets/images/dashboard/srilanka.jpg';
+import timorlesteDIFF from '../../../assets/images/dashboard/timorleste.jpg';
 
 /** Material UI **/
 import Typography       from '@material-ui/core/Typography';
@@ -106,58 +107,73 @@ class Dashboard extends Component {
     };
     this.props.importedData[2].max = Math.round(calculMaxValue(this.props.importedData[2].raw, "Number of beneficiaries")/100000)*100000+100000;
     this.props.importedData[3].max = Math.round(calculMaxValue(this.props.importedData[3].raw, "Number of beneficiaries")/100000)*100000+200000;
-    this.background = require('../../../assets/images/logos/afghanistan.png');
     const getDifferenceImage = function(country) {
-      let img ='';
+      let img = '';
+      let backgroundImg = '';
       switch (country) {
         case "afghanistan":
-          img = afghanistan;
+          img = afghanistanDIFF;
+          backgroundImg = require('../../../assets/images/logos/afghanistan.png');
           break;
          case "bangladesh":
-           img = bangladesh;
+           img = bangladeshDIFF;
+           backgroundImg = require('../../../assets/images/logos/bangladesh.png');
            break;
          case "bhutan":
-           img = bhutan;
+           img = bhutanDIFF;
+           backgroundImg = require('../../../assets/images/logos/nepal.png');
            break;
          case "cambodia":
-           img = cambodia;
+           img = cambodiaDIFF;
+           backgroundImg = require('../../../assets/images/logos/myanmar.png');
            break;
          case "dprk":
-           img = dprk
+           img = dprkDIFF;
+           backgroundImg = require('../../../assets/images/logos/dprk.png');
            break;
          case "india":
-           img = india;
+           img = indiaDIFF;
+           backgroundImg = require('../../../assets/images/logos/india.png');
            break;
          case "indonesia":
-           img = indonesia;
+           img = indonesiaDIFF;
+           backgroundImg = require('../../../assets/images/logos/indonesia.png');
            break;
         case "laos":
-           img = laos;
+           img = laosDIFF;
+          backgroundImg = require('../../../assets/images/logos/laos.png');
            break;
          case "myanmar":
-           img = myanmar;
+           img = myanmarDIFF;
+           backgroundImg = require('../../../assets/images/logos/myanmar.png');
            break;
          case "nepal":
-           img = nepal;
+           img = nepalDIFF;
+           backgroundImg = require('../../../assets/images/logos/nepal.png');
            break;
          case "pakistan":
-           img = pakistan;
+           img = pakistanDIFF;
+           backgroundImg = require('../../../assets/images/logos/pakistan.png');
            break;
          case "philippines":
-           img = philippines;
+           img = philippinesDIFF;
+           backgroundImg = require('../../../assets/images/logos/philippines.png');
            break;
          case "srilanka":
-           img = srilanka;
+           img = srilankaDIFF;
+           backgroundImg = require('../../../assets/images/logos/india.png');
            break;
-         case "timorleste":
-           img = timorleste;
+         case "timor-leste":
+           img = timorlesteDIFF;
+           backgroundImg = require('../../../assets/images/logos/indonesia.png');
            break;
       }
+      document.body.style = 'background: #F0EFEF url("' + backgroundImg + '") no-repeat center center fixed; background-size: cover;';
       return img;
     };
     return (
       // The padding prevent the page to be too wide because of the option spacing
-      <div  style={{backgroundImage: `url(${this.background})`}}>
+      <div>
         {/* We only show the dashboard if the matching data fetched from the rawdata is existing */}
         {this.props.importedData &&
         (
@@ -197,10 +213,9 @@ class Dashboard extends Component {
                                        data={this.props.importedData[1].capacity_strengthening}/>)}
               </Grid>
               </Grid>
-              {/* En of the first column */}
 
               {/* Second column */}
-              <Grid container direction="column" item xs={12} sm={8} md={6} className={"gender " + (this.props.number === null).toString()}>
+              <Grid container direction="column" item xs={12} sm={7} md={5} className={"gender " + (this.props.number === null).toString()}>
                 <Grid item>
                   <Card>
                     <CardContent style={{background: "#0a6eb4"}}>
@@ -450,13 +465,25 @@ class Dashboard extends Component {
                                         </VictoryChart>
                                       }/>
                 </Grid>
-      </Grid>
+              </Grid>
+
               {/* Third column */}
-              <Grid container direction="column" item xs={12} sm={1} md={3}>
+              <Grid container direction="column" item xs={12} sm={2} md={4}>
                 <Grid item>
                   <Card>
-                    <CardContent style={{background: "#0a6eb4"}}>
-                      <CardMedia className={"widget-difference-image"}
+                    <CardContent style={{background: "#dd1367"}}>
+                      <Typography color="primary"
+                                  variant={"title"}
+                      >
+                        What difference did we make ?
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item>
+                  <Card className="indicator-container">
+                    <CardContent className="widget-difference">
+                      <CardMedia className="widget-difference-image"
                                  image     = {getDifferenceImage(this.props.importedData[4].raw[0].Country.toLowerCase().replace(/\s/g, ''))}
                       />
                       <Typography>

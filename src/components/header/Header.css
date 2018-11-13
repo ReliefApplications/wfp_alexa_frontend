@@ -8,6 +8,7 @@
   flex-direction : column;
   align-items: center;
   padding          : 0 0 10px 0;
+  margin-bottom: 20px;
   color : white;
   background-color            : #0A6EB4;
   font-family: 'Barlow Condensed', sans-serif;
@@ -116,4 +117,20 @@
 }
 #nav-container a {
   text-decoration: none;
+}
+
+
+
+.test {
+  background-color: #0A6EB4;
+  color: #FFFFFF !important;
+  position: fixed;
+  top: 0;
+  right: 15%;
+  width: 300px;
+  margin: 0;
+}
+
+.nested {
+  padding-left: 10px;
 }

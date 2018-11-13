@@ -100,7 +100,7 @@ class Home extends React.Component {
             </Card>
             <Card className="indicator-container">
               <CardContent className="widget-text">
-                <CardMedia className={"widget-difference-image"}
+                <CardMedia className={"widget-difference-image-home"}
                            image     = {wfpHOME}
                 />
               </CardContent>

@@ -1,5 +1,14 @@
 body {
   margin      : 0;
   padding     : 0;
-  background-color: #F0EFEF;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  height: 100%;
 }

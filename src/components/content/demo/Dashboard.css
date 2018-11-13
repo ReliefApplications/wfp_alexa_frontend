@@ -36,3 +36,16 @@ gender {
 .stacked-charts .VictoryContainer {
   height: 33.33333% !important;
 }
+
+.widget-difference-image{
+  width : 100%;
+  height: 20em;
+}
+
+.widget-difference{
+  display         : flex;
+  flex-direction  : column;
+  align-items     : center;
+  margin          : 0 auto;
+  padding         : 10px;
+}

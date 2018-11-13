@@ -22,7 +22,7 @@ class WidgetIndicator extends Component {
                      image     = {this.props.img}
                      title     = {this.props.img}
           />
-          <CardContent className="widget-text">
+          <CardContent className="widget-text widget-indicator-text">
             <Typography variant="caption"> {this.props.title} </Typography>
             <Typography> {new Intl.NumberFormat('en-GB', {
                             minimumFractionDigits: 0,
