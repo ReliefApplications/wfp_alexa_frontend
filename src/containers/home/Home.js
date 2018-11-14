@@ -39,21 +39,26 @@ class Home extends React.Component {
     };
     subscribeToDashboardChanges((userId, country, data) => {
       if (data !== {}) {
-        console.log(data[4].raw[0].Country.toLowerCase().replace(/\s/g, ''));
         this.setState({
           country: country,
           importedData: data,
           loading: false,
-          number: 0
+          column: ""
         });
       }
     });
-    subscribeToDashboardFocus((userId, number) => {
-      console.log(number);
-      if (number !== {}) {
+    subscribeToDashboardFocus((userId, column, country, data) => {
+      console.log(column);
+      if (column !== "") {
         this.setState({
-          number: number,
+          column: column,
           loading: false
+        });
+      }
+      if (country !== "") {
+        this.setState({
+          country: country,
+          importedData: data
         });
       }
     });
@@ -74,6 +79,7 @@ class Home extends React.Component {
   render() {
     const { importedData }                    = this.state;
 
+    document.body.style = 'background: #F0EFEF';
     return (
       <div className="Home">
         {/* Header */}
@@ -83,7 +89,7 @@ class Home extends React.Component {
         {this.state.loading               && (<CircularProgress id="loader" className={"loader"} thickness={7} />)}
         {/* Content */}
         {!this.state.loading              && this.state.country !== "Global"
-                                          && (<this.state.content number={this.state.number} importedData = {importedData} background={this.state.country.toLowerCase() + ".png"}/>)}
+                                          && (<this.state.content column={this.state.column} importedData = {importedData} background={this.state.country.toLowerCase() + ".png"}/>)}
 
         {/* Home Content */}
         {this.state.country === "Global"  && (

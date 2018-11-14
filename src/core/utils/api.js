@@ -10,9 +10,9 @@ function subscribeToDashboardChanges(callback) {
 }
 
 function subscribeToDashboardFocus(callback) {
-  socket.on('dashboardFocus', (userId, number) => {
+  socket.on('dashboardFocus', (userId, number, country, data) => {
     // if(userId === '78910') {
-      callback(userId, number);
+      callback(userId, number, country, JSON.parse(data));
     // }
   });
 }

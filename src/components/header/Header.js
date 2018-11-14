@@ -40,8 +40,16 @@ class Header extends Component {
   }
 
   handleClickOpenMenu(){
-    console.log("ici");
-    this.setState(state => ({ open: !state.open }));
+    this.setState(state => {
+      const openArray = state.openArray.map(() => {
+        return false;
+      });
+
+      return {
+        openArray,
+        open: !state.open
+      };
+    });
   };
 
   handleClickMenu(i, e){
@@ -51,7 +59,7 @@ class Header extends Component {
         if (j === i) {
           return !item;
         } else {
-          return item;
+          return false;
         }
       });
 
@@ -72,41 +80,26 @@ class Header extends Component {
           <h1 className="header-title">Overview - {this.upperCaseFirstChar(this.props.country)}</h1>
           {/* Questions that the user can ask */}
           <div className="test">
-            <List component="nav" >
+            <List component="nav">
               <ListItem button onClick={this.handleClickOpenMenu}>
-                <ListItemText inset primary="What can I ask ?" />
+                <ListItemText inset primary="What can I ask ?"/>
                 {this.state.open ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-              <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+              <Collapse in={this.state.open} timeout="auto" unmountOnExit className="test2">
                 <List component="div">
                   <ListItem>
                     <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(0, e)}>
-                        <ListItemText primary="Starred" />
+                        <ListItemText primary="Displaying the dashboard"/>
                         {this.state.openArray[0] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[0]} timeout="auto" unmountOnExit>
-                        <List component="div">
-                          <ListItem>
-                            <ListItemText primary="nested"/>
-                          </ListItem>
-                        </List>
-                      </Collapse>
-                    </List>
-                  </ListItem>
-                  <ListItem>
-                    <List component="nav">
-                      <ListItem button onClick={(e) => this.handleClickMenu(1, e)}>
-                        <ListItemText primary="Displaying the dashboard" />
-                        {this.state.openArray[1] ? <ExpandLess /> : <ExpandMore />}
-                      </ListItem>
-                      <Collapse in={this.state.openArray[1]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                        <List component="div" className="test3">
                           <ListItem>
                             <ListItemText primary="Pull out the information for Afghanistan and show it to me"/>
                           </ListItem>
                           <ListItem>
-                            <ListItemText primary="Get me the data for Afghanistan"/>
+                            <ListItemText primary="Focus on what difference did we make in Pakistan"/>
                           </ListItem>
                           <ListItem>
                             <ListItemText primary="Show me the home page"/>
@@ -117,12 +110,36 @@ class Header extends Component {
                   </ListItem>
                   <ListItem>
                     <List component="nav">
+                      <ListItem button onClick={(e) => this.handleClickMenu(1, e)}>
+                        <ListItemText primary="Focus in the dashboard"/>
+                        {this.state.openArray[1] ? <ExpandLess /> : <ExpandMore />}
+                      </ListItem>
+                      <Collapse in={this.state.openArray[1]} timeout="auto" unmountOnExit>
+                        <List component="div" className="test3">
+                          <ListItem>
+                            <ListItemText primary="Who are the thousands people that we directly assisted"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="Focus on who did we helped"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="What assistance did we provide"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="Focus on what difference did we make"/>
+                          </ListItem>
+                        </List>
+                      </Collapse>
+                    </List>
+                  </ListItem>
+                  <ListItem>
+                    <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(2, e)}>
-                        <ListItemText primary="Food & Cash distribution" />
+                        <ListItemText primary="Food & Cash distribution"/>
                         {this.state.openArray[2] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[2]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                        <List component="div" className="test3">
                           <ListItem>
                             <ListItemText primary="How much did WFP spend on food in Nepal?"/>
                           </ListItem>
@@ -142,13 +159,16 @@ class Header extends Component {
                   <ListItem>
                     <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(3, e)}>
-                        <ListItemText primary="Starred" />
-                        {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Capacity building data"/>
+                        {this.state.openArray[3] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
-                      <Collapse in={this.state.open[0]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                      <Collapse in={this.state.openArray[3]} timeout="auto" unmountOnExit>
+                        <List component="div" className="test3">
                           <ListItem>
-                            <ListItemText primary="nested"/>
+                            <ListItemText primary="What is the total budget of capacity building in Cambodia in 2017"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="What's the total budget of technical assistance in Nepal in 2018"/>
                           </ListItem>
                         </List>
                       </Collapse>
@@ -157,13 +177,25 @@ class Header extends Component {
                   <ListItem>
                     <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(4, e)}>
-                        <ListItemText primary="Starred" />
-                        {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Beneficiaries"/>
+                        {this.state.openArray[4] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
-                      <Collapse in={this.state.open[0]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                      <Collapse in={this.state.openArray[4]} timeout="auto" unmountOnExit>
+                        <List component="div" className="test3">
                           <ListItem>
-                            <ListItemText primary="nested"/>
+                            <ListItemText primary="How many men over 19 got food in DPRK in 2017"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="How many beneficiaries did we assist directly in the Philippines"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="How many women from 5 to 16 years old did WFP serve in Bhutan in 2016"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="What type of beneficiaries do we have in Laos"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="How many children did we serve in Bangladesh in 2018"/>
                           </ListItem>
                         </List>
                       </Collapse>
@@ -172,13 +204,16 @@ class Header extends Component {
                   <ListItem>
                     <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(5, e)}>
-                        <ListItemText primary="Starred" />
-                        {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Achievement ratio"/>
+                        {this.state.openArray[5] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
-                      <Collapse in={this.state.open[0]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                      <Collapse in={this.state.openArray[5]} timeout="auto" unmountOnExit>
+                        <List component="div" className="test3">
                           <ListItem>
-                            <ListItemText primary="nested"/>
+                            <ListItemText primary="Calculate the achievement ratio of cash distribution in Sri Lanka"/>
+                          </ListItem>
+                          <ListItem>
+                            <ListItemText primary="Calculate the achievement ratio of food distribution in Timor-Leste"/>
                           </ListItem>
                         </List>
                       </Collapse>
@@ -187,13 +222,13 @@ class Header extends Component {
                   <ListItem>
                     <List component="nav">
                       <ListItem button onClick={(e) => this.handleClickMenu(6, e)}>
-                        <ListItemText primary="Starred" />
-                        {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
+                        <ListItemText primary="Annual reports"/>
+                        {this.state.openArray[6] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
-                      <Collapse in={this.state.open[0]} timeout="auto" unmountOnExit>
-                        <List component="div">
+                      <Collapse in={this.state.openArray[6]} timeout="auto" unmountOnExit>
+                        <List component="div" className="test3">
                           <ListItem>
-                            <ListItemText primary="nested"/>
+                            <ListItemText primary="Send me the annual report for Pakistan"/>
                           </ListItem>
                         </List>
                       </Collapse>

@@ -22,11 +22,12 @@
   z-index: -5;
 }
 
+/* Hiding */
 .gender.true {
   filter: blur(0.05em) opacity(40%);
 }
 
-gender {
+.gender {
   filter: blur(0px) opacity(100%);
 }
 

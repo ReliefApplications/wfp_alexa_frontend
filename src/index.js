@@ -36,6 +36,9 @@ const GlobalTheme = createMuiTheme({
     MuiTypography: {
       colorPrimary: {
         color: 'white',
+      },
+      subheading: {
+        color: 'white',
       }
     },
     MuiButton: {

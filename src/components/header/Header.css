@@ -119,12 +119,10 @@
   text-decoration: none;
 }
 
-
-
 .test {
   background-color: #0A6EB4;
   color: #FFFFFF !important;
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 15%;
   width: 300px;
@@ -133,4 +131,21 @@
 
 .nested {
   padding-left: 10px;
+}
+
+.test2 {
+  width: 600px;
+  position: relative;
+  left: -200px;
+  background-color: #0A6EB4;
+  z-index: 1;
+}
+
+
+.test2 nav {
+  width: 100%;
+}
+
+.test3 {
+  background-color: #004d8c;
 }

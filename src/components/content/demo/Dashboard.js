@@ -167,6 +167,8 @@ class Dashboard extends Component {
            img = timorlesteDIFF;
            backgroundImg = require('../../../assets/images/logos/indonesia.png');
            break;
+        default:
+          backgroundImg = require('../../../assets/images/logos/afghanistan.png');
       }
       document.body.style = 'background: #F0EFEF url("' + backgroundImg + '") no-repeat center center fixed; background-size: cover;';
       return img;
@@ -180,7 +182,8 @@ class Dashboard extends Component {
           <div>
             <Grid container spacing={24}>  {/* Spacing = space between cards */}
               {/* First column */}
-              <Grid container direction="column" item xs={12} sm={1} md={3} className={"gender " + (this.props.number !== 0 && this.props.number !== null).toString()}>
+              <Grid container direction="column" item xs={12} sm={1} md={3}
+                    className={"gender " + (this.props.column !=="" && this.props.column !== "assistance").toString()}>
                 <Grid item>
                   <Card>
                     <CardContent style={{background: "#97d700"}}>
@@ -215,7 +218,8 @@ class Dashboard extends Component {
               </Grid>
 
               {/* Second column */}
-              <Grid container direction="column" item xs={12} sm={7} md={5} className={"gender " + (this.props.number === null).toString()}>
+              <Grid container direction="column" item xs={12} sm={7} md={5}
+                    className={"gender " + (this.props.column !=="" && this.props.column !== "helped").toString()}>
                 <Grid item>
                   <Card>
                     <CardContent style={{background: "#0a6eb4"}}>
@@ -468,7 +472,8 @@ class Dashboard extends Component {
               </Grid>
 
               {/* Third column */}
-              <Grid container direction="column" item xs={12} sm={2} md={4}>
+              <Grid container direction="column" item xs={12} sm={2} md={4}
+                    className={"gender " + (this.props.column !=="" && this.props.column !== "difference").toString()}>
                 <Grid item>
                   <Card>
                     <CardContent style={{background: "#dd1367"}}>

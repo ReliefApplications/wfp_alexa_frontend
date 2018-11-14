@@ -22,8 +22,8 @@ let isSubscribed = false;
 let swRegistration = null;
 
 export default function register() {
-  // if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
-  if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
+  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  // if (process.env.NODE_ENV === 'development' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location);
     if (publicUrl.origin !== window.location.origin) {
@@ -57,8 +57,6 @@ export default function register() {
 }
 
 function registerValidSW(swUrl) {
-  console.log("registration");
-  console.log(navigator.serviceWorker);
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {
