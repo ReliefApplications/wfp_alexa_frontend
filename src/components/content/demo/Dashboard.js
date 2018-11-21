@@ -182,7 +182,7 @@ class Dashboard extends Component {
           <div>
             <Grid container spacing={24}>  {/* Spacing = space between cards */}
               {/* First column */}
-              <Grid container direction="column" item xs={12} sm={1} md={3}
+              <Grid container direction="column" item sm={12} md={3}
                     className={"gender " + (this.props.column !=="" && this.props.column !== "assistance").toString()}>
                 <Grid item>
                   <Card>
@@ -198,27 +198,30 @@ class Dashboard extends Component {
                 <Grid item> {/* item of the container that uses bootstrap breakpoints */}
                   {/* We check again if the data displayed in the widget does exist. Then, we add the widget */}
                   {this.props.importedData[0] && this.props.importedData[0].food
-                  && (<WidgetIndicator  title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
+                  && (<WidgetIndicator  className="widget-logo"
+                                        title="Metric tons of commodities provided to those in need" //The title is the text displayed above the data
                                         img={foodIMG} //The image displayed on the left of the widget
                                         data={this.props.importedData[0].food}/>)} {/* The data is the value */}
                 </Grid>
                 <Grid item>
                   {this.props.importedData[0] && this.props.importedData[0].cbt
-                  && (<WidgetIndicator  title="Amount of cash based transfers to beneficiaries"
+                  && (<WidgetIndicator  className="widget-logo"
+                                        title="Amount of cash based transfers to beneficiaries"
                                         img={moneyIMG}
                                         data={this.props.importedData[0].cbt}/>
                   )}
                 </Grid>
                 <Grid item>
                 {this.props.importedData[1] && this.props.importedData[1].capacity_strengthening
-                && (<WidgetIndicator   title="Amount invested in strengthening capacities of national actors and supporting partners"
+                && (<WidgetIndicator   className="widget-logo"
+                                       title="Amount invested in strengthening capacities of national actors and supporting partners"
                                        img={capacityIMG}
                                        data={this.props.importedData[1].capacity_strengthening}/>)}
               </Grid>
               </Grid>
 
               {/* Second column */}
-              <Grid container direction="column" item xs={12} sm={7} md={5}
+              <Grid container direction="column" item sm={12} md={5}
                     className={"gender " + (this.props.column !=="" && this.props.column !== "helped").toString()}>
                 <Grid item>
                   <Card>
@@ -233,7 +236,8 @@ class Dashboard extends Component {
                 </Grid>
                 <Grid item>
                     <WidgetGraph  graph = {
-                                      <div>
+                      this.props.importedData[2] && this.props.importedData[2].total
+                          && (<div>
                                         <div className={"stacked-charts"}>
                                           <VictoryChart domainPadding={10}
                                                       height={55}
@@ -392,11 +396,13 @@ class Dashboard extends Component {
                                           <img src={require('../../../assets/images/logos/men.png')} alt={""} />
                                           <img src={require('../../../assets/images/logos/women.png')} alt={""} />
                                         </div>
-                                      </div>
+                                      </div>)
+                      || (<div>No data</div>)
 
                                       }/>
-                    <WidgetGraph  graph = {
-                                      <VictoryChart domainPadding={10}
+                  {this.props.importedData[3] && this.props.importedData[3].raw.length > 0
+                  && (<WidgetGraph  graph = {
+                      <VictoryChart domainPadding={10}
                                                       height={150}
                                                       domain={{ x: [0, this.props.importedData[3].max] }}
                                                       padding={{ top: 5, bottom: 5, left: 100, right: 0 }}
@@ -433,7 +439,7 @@ class Dashboard extends Component {
                                                       }}
                                                       data   = {tableToData(this.props.importedData[3].raw, "assisted", null, null, "Number of beneficiaries", "Residence Status", "desc")}
                                           />
-                                          <VictoryAxis dependentAxis
+                                        <VictoryAxis dependentAxis
                                                        height={150}
                                                        style={{
                                                          axis: {stroke: "#c0c0c0", strokeWidth: 2},
@@ -466,13 +472,13 @@ class Dashboard extends Component {
                                                          }
                                                        }}
                                           />
-                                        </VictoryChart>
-                                      }/>
+                                      </VictoryChart>
+                      }/>)}
                 </Grid>
               </Grid>
 
               {/* Third column */}
-              <Grid container direction="column" item xs={12} sm={2} md={4}
+              <Grid container direction="column" item sm={12} md={4}
                     className={"gender " + (this.props.column !=="" && this.props.column !== "difference").toString()}>
                 <Grid item>
                   <Card>

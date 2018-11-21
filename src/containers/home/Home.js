@@ -48,7 +48,6 @@ class Home extends React.Component {
       }
     });
     subscribeToDashboardFocus((userId, column, country, data) => {
-      console.log(column);
       if (column !== "") {
         this.setState({
           column: column,
@@ -95,7 +94,7 @@ class Home extends React.Component {
         {this.state.country === "Global"  && (
           <div>
             <Card className="indicator-container">
-              <CardContent className="widget-text">
+              <CardContent className="widget-text-home">
                 <CardMedia className={"widget-home-image"}
                            image     = {wfpLOGO}
                 />
@@ -105,7 +104,7 @@ class Home extends React.Component {
               </CardContent>
             </Card>
             <Card className="indicator-container">
-              <CardContent className="widget-text">
+              <CardContent className="widget-text-home">
                 <CardMedia className={"widget-difference-image-home"}
                            image     = {wfpHOME}
                 />

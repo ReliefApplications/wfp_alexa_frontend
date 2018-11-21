@@ -82,13 +82,13 @@ class Header extends Component {
           {/* Title */}
           <h1 className="header-title">Overview - {this.upperCaseFirstChar(this.props.country)}</h1>
           {/* Questions that the user can ask */}
-          <div className="test">
+          <div className="questions">
             <List component="nav">
               <ListItem button onClick={this.handleClickOpenMenu}>
                 <ListItemText inset primary="What can I ask ?"/>
                 {this.state.open ? <ExpandLess /> : <ExpandMore />}
               </ListItem>
-              <Collapse in={this.state.open} timeout="auto" unmountOnExit className="test2">
+              <Collapse in={this.state.open} timeout="auto" unmountOnExit className="questions-nav">
                 <List component="div">
                   <ListItem>
                     {/*Beneficiaries*/}
@@ -98,7 +98,7 @@ class Header extends Component {
                         {this.state.openArray[0] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[0]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="How many men over 19 got food assistance in DPRK?"/>
                           </ListItem>
@@ -126,7 +126,7 @@ class Header extends Component {
                         {this.state.openArray[1] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[1]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="How much did WFP spend on food in Nepal?"/>
                           </ListItem>
@@ -151,7 +151,7 @@ class Header extends Component {
                         {this.state.openArray[2] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[2]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="What is the total budget of capacity building in Cambodia"/>
                           </ListItem>
@@ -170,7 +170,7 @@ class Header extends Component {
                         {this.state.openArray[3] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[3]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="Calculate the achievement ratio of cash distribution in Sri Lanka"/>
                           </ListItem>
@@ -190,7 +190,7 @@ class Header extends Component {
                         {this.state.openArray[4] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[4]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="Pull out the information for Afghanistan and show it to me"/>
                           </ListItem>
@@ -213,7 +213,7 @@ class Header extends Component {
                         {this.state.openArray[5] ? <ExpandLess /> : <ExpandMore />}
                       </ListItem>
                       <Collapse in={this.state.openArray[5]} timeout="auto" unmountOnExit>
-                        <List component="div" className="test3">
+                        <List component="div" className="questions-nav-text">
                           <ListItem>
                             <ListItemText primary="Send me the 2017 report for Pakistan"/>
                           </ListItem>
@@ -221,31 +221,6 @@ class Header extends Component {
                       </Collapse>
                     </List>
                   </ListItem>
-                  {/*<ListItem>*/}
-                    {/*/!*Focus*!/*/}
-                    {/*<List component="nav">*/}
-                      {/*<ListItem button onClick={(e) => this.handleClickMenu(1, e)}>*/}
-                        {/*<ListItemText primary="Focus in the dashboard"/>*/}
-                        {/*{this.state.openArray[1] ? <ExpandLess /> : <ExpandMore />}*/}
-                      {/*</ListItem>*/}
-                      {/*<Collapse in={this.state.openArray[1]} timeout="auto" unmountOnExit>*/}
-                        {/*<List component="div" className="test3">*/}
-                          {/*<ListItem>*/}
-                            {/*<ListItemText primary="Who are the thousands people that we directly assisted"/>*/}
-                          {/*</ListItem>*/}
-                          {/*<ListItem>*/}
-                            {/*<ListItemText primary="Focus on who did we help"/>*/}
-                          {/*</ListItem>*/}
-                          {/*<ListItem>*/}
-                            {/*<ListItemText primary="What assistance did we provide"/>*/}
-                          {/*</ListItem>*/}
-                          {/*<ListItem>*/}
-                            {/*<ListItemText primary="Focus on what difference did we make"/>*/}
-                          {/*</ListItem>*/}
-                        {/*</List>*/}
-                      {/*</Collapse>*/}
-                    {/*</List>*/}
-                  {/*</ListItem>*/}
                 </List>
               </Collapse>
             </List>

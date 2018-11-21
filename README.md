@@ -63,6 +63,7 @@ sudo ./docker-build.sh wfp/proofofwork
  
  
 <!---
+sudo docker build -t wfp-front:v2 ./front
 sudo docker stop wfpalexafront_nginx_1
 sudo docker rm wfpalexafront_nginx_1
 sudo docker run --name wfpalexafront_nginx_1 --restart=always -v /var/www/html/wfp-alexa/front:/var/www/html -d -p 12114:80 wfp-front:v2

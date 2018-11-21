@@ -5,7 +5,7 @@
 //------------------------------------------------------------------------*/
 .header {
   display : flex;
-  flex-direction : column;
+  flex-direction : row;
   align-items: center;
   padding          : 0 0 10px 0;
   margin-bottom: 20px;
@@ -38,7 +38,7 @@
 }
 
 /*------------------------------------------------------------------------//
-//------------------------- Header from hotosm ---------------------------//
+//------------------------------ Header ----------------------------------//
 //------------------------------------------------------------------------*/
 @media (min-width: 1022px) {
   .nav-secondary {
@@ -119,10 +119,10 @@
   text-decoration: none;
 }
 
-.test {
+.questions {
   background-color: #0A6EB4;
   color: #FFFFFF !important;
-  position: absolute;
+  position: relative;
   top: 0;
   right: 15%;
   width: 300px;
@@ -133,19 +133,26 @@
   padding-left: 10px;
 }
 
-.test2 {
+.questions-nav {
   width: 600px;
-  position: relative;
+  position: absolute;
   left: -200px;
   background-color: #0A6EB4;
   z-index: 1;
 }
 
 
-.test2 nav {
+.questions-nav nav {
   width: 100%;
 }
 
-.test3 {
+.questions-nav-text {
   background-color: #004d8c;
+}
+
+@media (max-width: 992px){
+  .questions-nav  {
+    width: 100%;
+    left: 0;
+  }
 }

@@ -19,8 +19,8 @@ class WidgetIndicator extends Component {
       <div className={this.props.className}>
         <Card className="indicator-container">
           <CardMedia className = "widget-image"
+                     component="div"
                      image     = {this.props.img}
-                     title     = {this.props.img}
           />
           <CardContent className="widget-text widget-indicator-text">
             <Typography variant="caption"> {this.props.title} </Typography>

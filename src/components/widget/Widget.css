@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------*/
 /** External widgets **/
 .widget-container {
-    /*display       : flex;*/
+    display       : flex;
     flex-direction: column;
     justify-content: center;
     margin: 40px 20px 0px;
@@ -12,24 +12,31 @@
     overflow: visible !important;
 }
 .indicator-container {
+    background-color : #007bc0;
     display       : flex;
     height: auto !important;
     margin: 40px 20px 0px;
+    /*align-items: center;*/
 }
 .widget-image{
-    background-color : #0A6EB4;
+    background-color : #007bc0;
     width            : 80px;
-    height           : 80px;
+    min-height       : 80px;
     padding          : 5px;
 }
 .widget-text{
+    background-color : white;
     display         : flex;
     flex-direction  : column;
     justify-content : center;
     text-align      : center;
-    margin          : 0 auto;
     padding         : 10px !important;
 }
 .widget-indicator-text{
     width           : 75%;
+    margin          : 0 auto;
+}
+
+.widget-logo {
+    height: 100%;
 }
