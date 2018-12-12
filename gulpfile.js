@@ -25,7 +25,7 @@ gulp.task('push', shell.task([
     'echo',
     'echo Deploying the project on the server ...',
     'echo',
-    'scp -r build/* tester@217.70.189.97:/var/www/html/wfp-alexa/front',
+    'scp -r build/* tester@217.70.188.94:/var/www/html/wfp-alexa/front',
     'echo',
     'echo Push finished',
     'echo',

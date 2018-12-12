@@ -153,10 +153,10 @@ class Header extends Component {
                       <Collapse in={this.state.openArray[2]} timeout="auto" unmountOnExit>
                         <List component="div" className="questions-nav-text">
                           <ListItem>
-                            <ListItemText primary="What is the total budget of capacity building in Cambodia"/>
+                            <ListItemText primary="What is the total budget of capacity building in Cambodia?"/>
                           </ListItem>
                           <ListItem>
-                            <ListItemText primary="What's the total budget of technical assistance in Nepal"/>
+                            <ListItemText primary="What's the total budget of technical assistance in Nepal?"/>
                           </ListItem>
                         </List>
                       </Collapse>
@@ -175,7 +175,7 @@ class Header extends Component {
                             <ListItemText primary="Calculate the achievement ratio of cash distribution in Sri Lanka"/>
                           </ListItem>
                           <ListItem>
-                            <ListItemText primary="Calculate the achievement ratio of food distribution in Timor-Leste"/>
+                            <ListItemText primary="What is the plan for food distribution in Timor-Leste?"/>
                           </ListItem>
                         </List>
                       </Collapse>
