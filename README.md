@@ -62,9 +62,11 @@ sudo ./docker-build.sh wfp/proofofwork
 ```
  
  
-<!---
-sudo docker build -t wfp-front:v2 ./front
-sudo docker stop wfpalexafront_nginx_1
-sudo docker rm wfpalexafront_nginx_1
-sudo docker run --name wfpalexafront_nginx_1 --restart=always -v /var/www/html/wfp-alexa/front:/var/www/html -d -p 12114:80 wfp-front:v2
---->
+ ## Deploying on a server
+ 
+ In order to deploy the static website on a server, using the gulpfile, you'll have to be in the root of the folder.
+ Then, you just have to run the docker build. 
+```
+sudo docker build -t wfp-front:v1 ./front
+sudo docker run --name wfpalexafront_nginx_1 --restart=always -v /var/www/html/wfp-alexa/front:/var/www/html -d -p 12114:80 wfp-front:v1
+```
