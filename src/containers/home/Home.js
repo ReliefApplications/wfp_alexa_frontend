@@ -22,7 +22,6 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 /** API/socket **/
 import { subscribeToDashboardChanges, subscribeToDashboardFocus } from '../../core/utils/api';
 
-
 /**
  * This component will be composed of multiple parts
  */
@@ -70,17 +69,40 @@ class Home extends React.Component {
     this.setState({
       loading: false
     });
+    if (document.getElementById('amazon-root')) {
+      (function(d) {
+        let a = d.createElement('script');
+        a.type = 'text/javascript';
+        a.async = true;
+        a.id = 'amazon-login-sdk';
+        a.src = 'https://assets.loginwithamazon.com/sdk/na/login1.js';
+        d.getElementById('amazon-root').appendChild(a);
+      })(document);
+      window.onAmazonLoginReady = function() {
+        window.amazon.Login.setClientId('amzn1.application-oa2-client.68279c5edda344f5b43c55d836d7e883');
+      };
+    }
   }
 
   //------------------------------------------------------------------------//
   //-------------------------------- Render --------------------------------//
   //------------------------------------------------------------------------//
   render() {
+
+    let AMZlogin = function() {
+      let options = { scope : 'profile' };
+      if (document.getElementById('amazon-root')) {
+        window.amazon.Login.authorize(options, 'https://wfp-alexa-front.test.humanitarian.tech/');
+      }
+      return false;
+    };
     const { importedData }                    = this.state;
 
     document.body.style = 'background: #F0EFEF';
     return (
-      <div className="Home">
+      <div id="Home">
+
+        <div id="amazon-root" />
         {/* Header */}
         <Header sendToHome={this.selectProjectFromHeader} country={this.state.country}/>
 
@@ -100,6 +122,13 @@ class Home extends React.Component {
                 />
                 <Typography>
                   Welcome on the brand new WFP dashboard controlled by Alexa
+                  <br/>
+                  It's your first time ? Connect yourself here :
+                    <a id="LoginWithAmazon" onClick={AMZlogin}>
+                    <img border="0" alt="Login with Amazon"
+                         src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_76x32.png"
+                         width="76" height="32" />
+                    </a>
                 </Typography>
               </CardContent>
             </Card>
