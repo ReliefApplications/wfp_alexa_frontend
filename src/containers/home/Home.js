@@ -37,27 +37,35 @@ class Home extends React.Component {
       importedData: {}
     };
     subscribeToDashboardChanges((userId, country, data) => {
-      if (data !== {}) {
-        this.setState({
-          country: country,
-          importedData: data,
-          loading: false,
-          column: ""
-        });
-      }
+      let userIdCache = this.getCookie("userId");
+        if (userIdCache === userId) {
+          if (data !== {}) {
+            this.setState({
+              country: country,
+              importedData: data,
+              loading: false,
+              column: ""
+            });
+          }
+        } else {
+          console.error("You're not connected, please log in with amazon.")
+        }
     });
     subscribeToDashboardFocus((userId, column, country, data) => {
-      if (column !== "") {
-        this.setState({
-          column: column,
-          loading: false
-        });
-      }
-      if (country !== "") {
-        this.setState({
-          country: country,
-          importedData: data
-        });
+      let userIdCache = this.getCookie("userId");
+      if (userIdCache === userId) {
+        if (column !== "") {
+          this.setState({
+            column: column,
+            loading: false
+          });
+        }
+        if (country !== "") {
+          this.setState({
+            country: country,
+            importedData: data
+          });
+        }
       }
     });
   }
@@ -84,19 +92,56 @@ class Home extends React.Component {
     }
   }
 
+  getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+
   //------------------------------------------------------------------------//
   //-------------------------------- Render --------------------------------//
   //------------------------------------------------------------------------//
   render() {
-
-    let AMZlogin = function() {
+    let AmzLogin = function() {
       let options = { scope : 'profile' };
       if (document.getElementById('amazon-root')) {
-        window.amazon.Login.authorize(options, 'https://wfp-alexa-front.test.humanitarian.tech/');
+        window.amazon.Login.authorize(options, function (response) {
+          if ( response.error ) {
+            console.error('oauth error ' + response.error);
+            return;
+          }
+          window.amazon.Login.retrieveProfile(response.access_token, function(response) {
+            let d = new Date();
+            d.setTime(d.getTime() + (24*60*60*1000));
+            let expires = "expires="+ d.toUTCString();
+            document.cookie = "userId" + "=" + response.profile.CustomerId + ";" + expires + ";path=/";
+          });
+        });
       }
-      return false;
     };
-    const { importedData }                    = this.state;
+
+    let AmzLogout = function() {
+      if (document.getElementById('amazon-root')) {
+        window.amazon.Login.logout();
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+          let c = ca[i];
+          document.cookie = c + ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
+        }
+      }
+    };
+    const { importedData } = this.state;
 
     document.body.style = 'background: #F0EFEF';
     return (
@@ -123,12 +168,20 @@ class Home extends React.Component {
                 <Typography>
                   Welcome on the brand new WFP dashboard controlled by Alexa
                   <br/>
-                  It's your first time ? Connect yourself here :
-                    <a id="LoginWithAmazon" onClick={AMZlogin}>
+                  <div>
+                    Is it your first time ? Connect yourself here :
+                    <a id="LoginWithAmazon" onClick={AmzLogin}>
                     <img border="0" alt="Login with Amazon"
                          src="https://images-na.ssl-images-amazon.com/images/G/01/lwa/btnLWA_gold_76x32.png"
                          width="76" height="32" />
                     </a>
+                  </div>
+                  <div>
+                    Disconnect yourself here :
+                    <button onClick={AmzLogout}>
+                      Logout
+                    </button>
+                  </div>
                 </Typography>
               </CardContent>
             </Card>
